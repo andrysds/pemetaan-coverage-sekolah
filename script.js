@@ -14,6 +14,7 @@ function drawVoronoi(input) {
 	var H = input[0][1];
 
 	var canvas = $("#myCanvas");
+	console.log(window)
 	canvas.attr("width", W);
 	canvas.attr("height", H);
 	var ctx = canvas[0].getContext("2d");
