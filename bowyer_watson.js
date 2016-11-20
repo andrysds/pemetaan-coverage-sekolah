@@ -281,21 +281,3 @@ function generateVoronoi(width, height, input) {
 
 	return voronoi;
 }
-
-var ww = 500;
-var hh = 500;
-var ii = [
-	[150, 150],
-	[250, 250],
-	[125, 400],
-	[400, 300],
-	[375, 125]
-];
-console.log(ii);
-// var vv = generateVoronoi(ww, hh, ii)
-
-// console.log(vv.length);
-// for(i in vv) {
-// 	console.log(vv[i][0] + " " + vv[i][1] + 
-// 				" " + vv[i][2] + " " + vv[i][3]);
-// }

@@ -1,5 +1,8 @@
 $(document).ready(function(){
-  $("#sumbitInput").click(function(){
+  $("#submitInput").click(function(){
+  		var width = $("#width").val();
+  		var height = $("#heigth").val();
+
       var input = $("#input").val().split("\n");;
       for(i in input) {
       	input[i] = input[i].split(" ");
@@ -9,40 +12,32 @@ $(document).ready(function(){
       		input[i][j] = +input[i][j];
       	}
       }
-      drawVoronoi(input);
+      drawVoronoi(input, width, height);
   });
 })
 
-function drawVoronoi(input) {
-	var W = input[0][0];
-	var H = input[0][1];
-	var N = input[1][0];
-	input.shift();
-	input.shift();
+function drawVoronoi(sites, width, height) {
+	var W = +width;
+	var H = +height;
+	var N = sites.length
 
-	console.log(input);
+	var voronoi = generateVoronoi(W, H, sites);
 
-	var voronoi = generateVoronoi(W, H, input);
-	console.log(voronoi.length);
-	for(i in voronoi) {
-		console.log(voronoi[i][0] + " " + voronoi[i][1] + 
-					" " + voronoi[i][2] + " " + voronoi[i][3]);
-	}
-
-	var canvas = $("#myCanvas");
+	var canvas = $("#diagram");
 	canvas.attr("width", W);
 	canvas.attr("height", H);
 	var ctx = canvas[0].getContext("2d");
 
-	ctx.fillStyle = "#ffc";
-	ctx.clearRect(0, 0, W, H);
-	ctx.fillRect(0, 0, W, H);
+	ctx.lineWidth = 3;
+	ctx.strokeStyle="#000000";
+	ctx.strokeRect(0, 0, W, H);
 
+	ctx.fillStyle = "#F44336";
 	for(i = 0; i < N; i++) {
-		ctx.fillStyle = "#000";
-		ctx.fillRect(input[i][0]-4, input[i][1]-4, 9, 9);
+		ctx.fillRect(sites[i][0] - 4, sites[i][1] - 4, 9, 9);
 	}
 
+	ctx.strokeStyle="#0277BD";
 	for(i in voronoi) {
 		ctx.moveTo(voronoi[i][0], voronoi[i][1]);
 		ctx.lineTo(voronoi[i][2], voronoi[i][3]);
