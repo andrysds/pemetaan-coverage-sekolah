@@ -1,20 +1,35 @@
 $(document).ready(function(){
-    $("#sumbitInput").click(function(){
-        var input = $("#input").val().split("\n");;
-        for (i in input) {
-        	input[i] = input[i].split(" ");
-        }
-        // console.log(input);
-        drawVoronoi(input);
-    });
+  $("#sumbitInput").click(function(){
+      var input = $("#input").val().split("\n");;
+      for(i in input) {
+      	input[i] = input[i].split(" ");
+      }
+      for(i in input) {
+      	for(j in input[i]) {
+      		input[i][j] = +input[i][j];
+      	}
+      }
+      drawVoronoi(input);
+  });
 })
 
 function drawVoronoi(input) {
 	var W = input[0][0];
 	var H = input[0][1];
+	var N = input[1][0];
+	input.shift();
+	input.shift();
+
+	console.log(input);
+
+	var voronoi = generateVoronoi(W, H, input);
+	console.log(voronoi.length);
+	for(i in voronoi) {
+		console.log(voronoi[i][0] + " " + voronoi[i][1] + 
+					" " + voronoi[i][2] + " " + voronoi[i][3]);
+	}
 
 	var canvas = $("#myCanvas");
-	console.log(window)
 	canvas.attr("width", W);
 	canvas.attr("height", H);
 	var ctx = canvas[0].getContext("2d");
@@ -23,18 +38,14 @@ function drawVoronoi(input) {
 	ctx.clearRect(0, 0, W, H);
 	ctx.fillRect(0, 0, W, H);
 
-	var n = input[1][0];
-	for(i = 0; i < n; i++) {
-		coor = input[i+2];
+	for(i = 0; i < N; i++) {
 		ctx.fillStyle = "#000";
-		ctx.fillRect(coor[0], coor[1], 10, 10);
+		ctx.fillRect(input[i][0]-4, input[i][1]-4, 9, 9);
 	}
 
-	var m = input[+n+2][0];
-	for(i = 0; i < m; i++) {
-		coor = input[+n+i+3];
-		ctx.moveTo(coor[0], coor[1]);
-		ctx.lineTo(coor[2], coor[3]);
+	for(i in voronoi) {
+		ctx.moveTo(voronoi[i][0], voronoi[i][1]);
+		ctx.lineTo(voronoi[i][2], voronoi[i][3]);
 		ctx.stroke();
 	}
 }

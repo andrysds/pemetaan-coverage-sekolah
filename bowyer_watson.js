@@ -291,10 +291,11 @@ var ii = [
 	[400, 300],
 	[375, 125]
 ];
-var vv = generateVoronoi(ww, hh, ii)
+console.log(ii);
+// var vv = generateVoronoi(ww, hh, ii)
 
-console.log(vv.length);
-for(i in vv) {
-	console.log(vv[i][0] + " " + vv[i][1] + 
-				" " + vv[i][2] + " " + vv[i][3]);
-}
+// console.log(vv.length);
+// for(i in vv) {
+// 	console.log(vv[i][0] + " " + vv[i][1] + 
+// 				" " + vv[i][2] + " " + vv[i][3]);
+// }
