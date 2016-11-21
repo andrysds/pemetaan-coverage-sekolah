@@ -7,40 +7,92 @@ $(document).ready(function(){
       for(i in input) {
       	input[i] = input[i].split(" ");
       }
-      for(i in input) {
-      	for(j in input[i]) {
-      		input[i][j] = +input[i][j];
-      	}
+
+      if(input[0] == "T") {
+      	input.shift();
+      	stringToNum(input);
+      	drawTriangulation(input, width, height);
       }
-      drawVoronoi(input, width, height);
+      else {
+      	stringToNum(input);
+      	drawVoronoi(input, width, height);
+      }
   });
 })
+
+function stringToNum(strings) {
+	for(i in strings) {
+  	for(j in strings[i]) {
+  		strings[i][j] = +strings[i][j];
+  	}
+  }
+}
+
+function prepareCanvas(canvas, width, height) {
+	canvas.attr("width", width);
+	canvas.attr("height", height);
+	var context = canvas[0].getContext("2d");
+
+	context.clearRect(0, 0, width, height);
+
+	return context;
+}
+
+function borderArea(context, width, height) {
+	context.lineWidth = 3;
+	context.strokeStyle="#000000";
+	context.strokeRect(0, 0, width, height);
+}
+
+function drawSites(context, sites) {
+	var N = sites.length;
+	context.fillStyle = "#F44336";
+	for(i = 0; i < N; i++) {
+		context.fillRect(sites[i][0] - 4, sites[i][1] - 4, 9, 9);
+	}
+}
+
+function drawEdges(context, edges) {
+	context.lineWidth = 3;
+	context.strokeStyle="#0277BD";
+	for(i in edges) {
+		context.beginPath();
+		context.moveTo(edges[i][0], edges[i][1]);
+		context.lineTo(edges[i][2], edges[i][3]);
+		context.stroke();
+		context.closePath();
+	}
+}
 
 function drawVoronoi(sites, width, height) {
 	var W = +width;
 	var H = +height;
-	var N = sites.length
 
-	var voronoi = generateVoronoi(W, H, sites);
+	var edges = generateVoronoi(sites, W, H);
 
 	var canvas = $("#diagram");
-	canvas.attr("width", W);
-	canvas.attr("height", H);
-	var ctx = canvas[0].getContext("2d");
+	var context = prepareCanvas(canvas, W, H);
+	drawEdges(context, edges);
+	drawSites(context, sites);
+	borderArea(context, width, height);
+}
 
-	ctx.lineWidth = 3;
-	ctx.strokeStyle="#000000";
-	ctx.strokeRect(0, 0, W, H);
+function drawTriangulation(sites, width, height) {
+	var W = +width;
+	var H = +height;
 
-	ctx.fillStyle = "#F44336";
-	for(i = 0; i < N; i++) {
-		ctx.fillRect(sites[i][0] - 4, sites[i][1] - 4, 9, 9);
+	var T = generateTriangulation(sites, W, H);
+	var edges = [];
+	for(i in T) {
+		edges.push([T[i].p.x, T[i].p.y, T[i].q.x, T[i].q.y]);
+		edges.push([T[i].p.x, T[i].p.y, T[i].r.x, T[i].r.y]);
+		edges.push([T[i].q.x, T[i].q.y, T[i].r.x, T[i].r.y]);
 	}
+	console.log(edges);
 
-	ctx.strokeStyle="#0277BD";
-	for(i in voronoi) {
-		ctx.moveTo(voronoi[i][0], voronoi[i][1]);
-		ctx.lineTo(voronoi[i][2], voronoi[i][3]);
-		ctx.stroke();
-	}
+	var canvas = $("#diagram");
+	var context = prepareCanvas(canvas, W, H);
+	drawEdges(context, edges);
+	drawSites(context, sites);
+	borderArea(context, width, height);
 }
