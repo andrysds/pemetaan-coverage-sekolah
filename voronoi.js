@@ -224,11 +224,6 @@ function generateVoronoi(sites, width, height) {
 	var voronoi = [];
 
 	for(i in T) {
-		// console.log(T[i].p.x, T[i].p.y);
-		// console.log(T[i].q.x, T[i].q.y);
-		// console.log(T[i].r.x, T[i].r.y);
-		// console.log(T[i].circumcircle_center.x, T[i].circumcircle_center.y);
-		// console.log("====================================================");
 		var edges = [
 			new Edge(T[i].p, T[i].q),
 			new Edge(T[i].p, T[i].r),
@@ -237,7 +232,7 @@ function generateVoronoi(sites, width, height) {
 
 		for(j = +i+1; j < T.length; j++) {
 			for(k in edges) {
-				if(T[j].hasEdge(edges[k]) /*&& !isBadVoronoiEdge(edges[k], width, height)*/) {
+				if(T[j].hasEdge(edges[k]) && !isBadVoronoiEdge(edges[k], width, height)) {
 					voronoi.push([
 						T[i].circumcircle_center.x,
 						T[i].circumcircle_center.y,
