@@ -1,253 +1,211 @@
-function Point(x, y) {
+function Vertex (x, y) {
 	this.x = x;
 	this.y = y;
 
-	this.isEqual = function(p) {
-		return this.x == p.x && this.y == p.y;
+	this.isEqual = function(v) {
+		return (this.x == v.x && this.y == v.y);
 	}
 }
 
-function Edge(a, b) {
-	this.a = a;
-	this.b = b;
+function Edge(v1, v2) {
+	this.v1 = v1;
+	this.v2 = v2;
 
 	this.isEqual = function(e) {
-		return this.a.isEqual(e.a) && this.b.isEqual(e.b) || 
-					 this.a.isEqual(e.b) && this.b.isEqual(e.a);
+		return (this.v1.isEqual(e.v1) && this.v2.isEqual(e.v2)) ||
+					 (this.v1.isEqual(e.v2) && this.v2.isEqual(e.v1));
 	}
 }
 
-function Triangle(p, q, r) {
-	this.p = p;
-	this.q = q;
-	this.r = r;
+function Triangle(vertices, edges) {
+	this.vertices = vertices;
+	this.edges = edges;
+	this.neighbours = [null, null, null];
 
-	this.containsPoint = function(p) {
-		return this.p.isEqual(p) || this.q.isEqual(p) || this.r.isEqual(p);
+	this.computeCircumcirle = function() {
+		var v1 = this.vertices[0];
+		var v2 = this.vertices[1];
+		var v3 = this.vertices[2];
+
+		var ab = Math.pow(v1.x, 2) + Math.pow(v1.y, 2);
+		var cd = Math.pow(v2.x, 2) + Math.pow(v2.y, 2);
+		var ef = Math.pow(v3.x, 2) + Math.pow(v3.y, 2);
+
+		this.circum_x = 	(ab * (v3.y - v2.y) + cd * (v1.y - v3.y) + ef * (v2.y - v1.y)) / 
+		(v1.x * (v3.y - v2.y) + v2.x * (v1.y - v3.y) + v3.x * (v2.y - v1.y)) / 2;
+		this.circum_y = 	(ab * (v3.x - v2.x) + cd * (v1.x - v3.x) + ef * (v2.x - v1.x)) / 
+		(v1.y * (v3.x - v2.x) + v2.y * (v1.x - v3.x) + v3.y * (v2.x - v1.x)) / 2;
+		return Math.sqrt(Math.pow(v1.x - this.circum_x, 2) + Math.pow(v1.y - this.circum_y, 2));
 	}
+	this.circumRadius = this.computeCircumcirle();
 
-	this.hasEdge = function(e) {
-		return e.isEqual(new Edge(this.p, this.q)) || 
-					 e.isEqual(new Edge(this.p, this.r)) || 
-					 e.isEqual(new Edge(this.q, this.r));
+	this.circumcircleContains = function(v) {
+		var dist = Math.sqrt(Math.pow(v.x - this.circum_x, 2) + Math.pow(v.y - this.circum_y, 2));
+		return dist <= this.circumRadius;
 	}
 
 	this.isEqual = function(t) {
-		return this.p.isEqual(t.p) && this.q.isEqual(t.q) && this.r.isEqual(t.r) ||
-					 this.p.isEqual(t.p) && this.q.isEqual(t.r) && this.r.isEqual(t.q) ||
-					 this.p.isEqual(t.q) && this.q.isEqual(t.p) && this.r.isEqual(t.r) ||
-					 this.p.isEqual(t.q) && this.q.isEqual(t.r) && this.r.isEqual(t.p) ||
-					 this.p.isEqual(t.r) && this.q.isEqual(t.p) && this.r.isEqual(t.q) ||
-					 this.p.isEqual(t.r) && this.q.isEqual(t.q) && this.r.isEqual(t.p);
+		var v1 = this.vertices;
+		var v2 = t.vertices;
+
+		return v1[0].isEqual(v2[0]) && v1[1].isEqual(v2[1]) && v1[2].isEqual(v2[2]) ||
+					 v1[0].isEqual(v2[0]) && v1[1].isEqual(v2[2]) && v1[2].isEqual(v2[1]) ||
+					 v1[0].isEqual(v2[1]) && v1[1].isEqual(v2[0]) && v1[2].isEqual(v2[2]) ||
+					 v1[0].isEqual(v2[1]) && v1[1].isEqual(v2[2]) && v1[2].isEqual(v2[0]) ||
+					 v1[0].isEqual(v2[2]) && v1[1].isEqual(v2[0]) && v1[2].isEqual(v2[1]) ||
+					 v1[0].isEqual(v2[2]) && v1[1].isEqual(v2[1]) && v1[2].isEqual(v2[0]);
 	}
 
-	this.calculateCircumcirleCenter = function() {
-		var x;
-		var y;
+	this.containsVertex = function(v) {
+		for (var i in this.vertices) {
+			var vertex = this.vertices[i];
 
-		var m1 = getPBSlope(this.p, this.q);
-		if(m1[0]) {
-			if(m1[0] == "horizontal") {
-				y = m1[1];
-			}
-			else {
-				x = m1[1];
-			}
-			m1 = "hv";
-		}
-		var m2 = getPBSlope(this.p, this.r);
-		if(m2[0]) {
-			if(m2[0] == "horizontal") {
-				y = m2[1];
-			}
-			else {
-				x = m2[1];
-			}
-			m2 = "hv";
-		}
-
-		if(m1 != "hv" && m2 != "hv") {
-			var c1 = m1 * ((this.p.x + this.q.x) / 2) - ((this.p.y + this.q.y) / 2);
-			var c2 = m2 * ((this.p.x + this.r.x) / 2) - ((this.p.y + this.r.y) / 2);
-
-			x = (c1 - c2) / (m1 - m2);
-			y = m1 * x - c1;
-		}
-		else if(m1 == "hv" && m2 != "hv") {
-			var c2 = m2 * ((this.p.x + this.r.x) / 2) - ((this.p.y + this.r.y) / 2);
-			if(!y) {
-				y = m2 * x - c2;
-			}
-			else {
-				x = (y + c2) / m2;
+			if (v.isEqual(vertex)) {
+				return true;
 			}
 		}
-		else if(m1 != "hv" && m2 == "hv") {
-			var c1 = m1 * ((this.p.x + this.q.x) / 2) - ((this.p.y + this.q.y) / 2);
-			if(!y) {
-				y = m1 * x - c1;
-			}
-			else {
-				x = (y + c1) / m1;
+		return false;
+	}
+
+	this.containsEdge = function(e) {
+		for (var i in this.edges) {
+			var edge = this.edges[i];
+
+			if (edge.isEqual(e)) {
+				return true;
 			}
 		}
-
-		return new Point(x, y);
+		return false;
 	}
-
-	this.calculateCircumcirleRadius = function() {
-		return Math.sqrt(Math.pow(this.circumcircle_center.x - this.p.x, 2) + 
-					 Math.pow(this.circumcircle_center.y - this.p.y, 2));
-	}
-
-	this.circumcircle_center = this.calculateCircumcirleCenter();
-	this.circumcircle_radius = this.calculateCircumcirleRadius();
-
-	this.circumcirleContains = function(p) {
-		var dist = Math.sqrt(Math.pow(this.circumcircle_center.x - p.x, 2) + 
-							 Math.pow(this.circumcircle_center.y - p.y, 2));
-		return dist <= this.circumcircle_radius;
-	}
-}
-
-function getPBSlope(a, b) {
-	if(a.x == b.x) {
-		y = (a.y + b.y) / 2;
-		return ["horizontal", y];
-	}
-	if(a.y == b.y) {
-		x = (a.x + b.x) / 2;
-		return ["vertical", x];
-	}
-	return -1 / ((a.y - b.y) / (a.x - b.x));
-}
-
-function isBadVoronoiEdge(e, width, height) {
-	super_triangle = createSuperTriangle(width, height);
-	return super_triangle.containsPoint(e.a) || 
-				 super_triangle.containsPoint(e.b);
 }
 
 function createSuperTriangle(width, height) {
-	var p = new Point(0, 0);
-	var q = new Point(0, 2*height);
-	var r = new Point(2*width, 0);
-	return new Triangle(r, p, q);
+	var v1 = new Vertex(-1, -height-1);
+	var v2 = new Vertex(width * 2 + 1, height / 2);
+	var v3 = new Vertex(-1, height * 2 + 1);
+
+	var e1 = new Edge(v1, v2);
+	var e2 = new Edge(v1, v3);
+	var e3 = new Edge(v2, v3);
+
+	return new Triangle([v1, v2, v3], [e1, e2, e3]);
 }
 
-function generateTriangulation(sites, width, height) {
-	var points = [];
-	for(i in sites) {
-		points.push(new Point(sites[i][0], sites[i][1]));
-	}
-
-	var triangulation = [];
-  var super_triangle = createSuperTriangle(width, height);
-	triangulation.push(super_triangle);
-
-	for(i in points) {
-		var bad_triangles = [];
-		for(j in triangulation) {
-			if(triangulation[j].circumcirleContains(points[i])) {
-				bad_triangles.push(triangulation[j]);
-			}
-		}
-
-		var polygon = [];
-		for(j in bad_triangles) {
-			var edges = [
-				new Edge(bad_triangles[j].p, bad_triangles[j].q),
-				new Edge(bad_triangles[j].p, bad_triangles[j].r),
-				new Edge(bad_triangles[j].q, bad_triangles[j].r)
-			];
-
-			for(k in edges) {
-				var share_count = 0;
-				for(l in bad_triangles) {
-					if(bad_triangles[l].hasEdge(edges[k])) {
-						share_count++;
-					}
-				}
-				if(share_count == 1) {
-					polygon.push(edges[k]);
-				}
-			}
-		}
-
-		var new_triangulation = [];
-		for(j in triangulation) {
-			var goodTriangle = true;
-			for(k in bad_triangles) {
-				if(triangulation[j].isEqual(bad_triangles[k])) {
-					goodTriangle = false;
-					break;
-				}
-			}
-			if(goodTriangle) {
-				new_triangulation.push(triangulation[j]);
-			}
-		}
-		triangulation = new_triangulation;
-		
-		for(j in polygon) {
-			var new_triangle = new Triangle(points[i], polygon[j].a, polygon[j].b);
-			new_triangle.calculateCircumcirleCenter();
-			triangulation.push(new_triangle);
-		}
-	}
-
-	var result = [];
-	var st_edges = [
-		new Edge(super_triangle.p, super_triangle.q),
-		new Edge(super_triangle.p, super_triangle.r),
-		new Edge(super_triangle.q, super_triangle.r)
-	];
+function removeTriangles(triangles, triangulation) {
+	var new_triangulation = [];
 	for(i in triangulation) {
+		var triangle1 = triangulation[i];
+
 		var goodTriangle = true;
-		for(j in st_edges) {
-			if(triangulation[i].hasEdge(st_edges[j])) {
+		for(j in triangles) {
+			var triangle2 = triangles[j];
+
+			if(triangle1.isEqual(triangle2)) {
 				goodTriangle = false;
 				break;
 			}
 		}
+
 		if(goodTriangle) {
-			result.push(triangulation[i]);
+			new_triangulation.push(triangle1);
+		}
+	}
+	
+	return new_triangulation;
+}
+
+function generateTriangulation(points, width, height) {
+	var triangulation = [];
+
+	var super_triangle = createSuperTriangle(width, height);
+	triangulation.push(super_triangle);
+
+	for (var i in points) {
+		var point = points[i];
+
+		var bad_triangles = [];
+
+		for (var j in triangulation) {
+			var triangle = triangulation[j];
+
+			if (triangle.circumcircleContains(point)) {
+				bad_triangles.push(triangle);
+			}
+		}
+
+		polygon = [];
+		for (var j in bad_triangles) {
+			var triangle1 = bad_triangles[j];
+
+			for (var k = 0; k < 3; k++) {
+				var edge = triangle1.edges[k];
+
+				var nice_edge = true;
+				for (var l in bad_triangles) {
+					var triangle2 = bad_triangles[l];
+
+					if (triangle1 !== triangle2 && triangle2.containsEdge(edge)) {
+						nice_edge = false;
+						break;
+					}
+				}
+				if (nice_edge) {
+					polygon.push(edge);
+				}
+			}
+		}
+
+		triangulation = removeTriangles(bad_triangles, triangulation);
+
+		for (var j in polygon) {
+			var edge = polygon[j];
+
+			var v1 = edge.v1;
+			var v2 = edge.v2;
+			var v3 = point;
+
+			var e1 = edge;
+			var e2 = new Edge(v2, v3);
+			var e3 = new Edge(v3, v1);
+
+			var new_triangle = new Triangle([v1, v2, v3], [e1, e2, e3]);
+			triangulation.push(new_triangle);
 		}
 	}
 
-	return result;
+	return triangulation;
 }
 
-function generateVoronoi(sites, width, height) {
-	var T = generateTriangulation(sites, width, height);
+function generateVoronoi(points, width, height) {
+	var voronoiEdges = [];
 
-	var voronoi = [];
+	var super_triangle = createSuperTriangle(width, height);
 
-	for(i in T) {
-		// console.log(T[i].p.x, T[i].p.y);
-		// console.log(T[i].q.x, T[i].q.y);
-		// console.log(T[i].r.x, T[i].r.y);
-		// console.log(T[i].circumcircle_center.x, T[i].circumcircle_center.y);
-		// console.log("====================================================");
-		var edges = [
-			new Edge(T[i].p, T[i].q),
-			new Edge(T[i].p, T[i].r),
-			new Edge(T[i].q, T[i].r)
-		];
+	var triangulation = generateTriangulation(points, width, height);
 
-		for(j = +i+1; j < T.length; j++) {
-			for(k in edges) {
-				if(T[j].hasEdge(edges[k]) /*&& !isBadVoronoiEdge(edges[k], width, height)*/) {
-					voronoi.push([
-						T[i].circumcircle_center.x,
-						T[i].circumcircle_center.y,
-						T[j].circumcircle_center.x,
-						T[j].circumcircle_center.y,
-					]);
+	for (var i in triangulation) {
+		var triangle = triangulation[i];
+
+		var edges = triangle.edges;
+		for (var j in edges) {
+			var edge = edges[j];
+
+			for (var k = +i + 1; k < triangulation.length; k++) {
+				var t = triangulation[k];
+
+				if (t.containsEdge(edge) && !(
+						super_triangle.containsVertex(edge.v1) ||
+						super_triangle.containsVertex(edge.v2) )) {
+
+					voronoiEdges.push(new Edge(
+						new Vertex(triangle.circum_x, triangle.circum_y),
+						new Vertex(t.circum_x, t.circum_y)
+						));
+					break;
 				}
 			}
 		}
 	}
 
-	return voronoi;
+	return voronoiEdges;
 }
