@@ -16,32 +16,36 @@
 		var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#00FF00";
 
+    function drawMap(data, n, cx, cy) {
+    	var map = data.split("\n");
+      for (var i = 0; i < n; i++) {
+      	var coor = map[i].split(" ");
+      	for (var j = 0; j < 6001; j++) {
+					if (coor[j] != -9999) {
+						ctx.fillRect(j + cx, i + cy, 1, 1);
+					}
+				}
+			}
+    }
+
   	$.when(
-  		$.get("maps/58_14.in", function(map1) {
-  			console.log("map1 start");
-  			var map = map1.split("\n");
-	      for (var i = 0; i < 6001; i++) {
-	      	var coor = map[i].split(" ");
-	      	for (var j = 0; j < 6001; j++) {
-						if (coor[j] != -9999) {
-							ctx.fillRect(j, i, 1, 1);
-						}
-					}
-				}
-				console.log("map1 done");
+  		$.get("maps/58_14_1.txt", function(data) {
+  			drawMap(data, 2001, 0, 0);
   		}),
-  		$.get("maps/59_14.in", function(map2) {
-  			console.log("map2 start");
-  			var map = map2.split("\n");
-	      for (var i = 0; i < 6001; i++) {
-	      	var coor = map[i].split(" ");
-	      	for (var j = 0; j < 6001; j++) {
-						if (coor[j] != -9999) {
-							ctx.fillRect(j+6001, i, 1, 1);
-						}
-					}
-				}
-				console.log("map2 done");
+  		$.get("maps/58_14_2.txt", function(data) {
+  			drawMap(data, 2001, 0, 2001);
+  		}),
+  		$.get("maps/58_14_3.txt", function(data) {
+  			drawMap(data, 2002, 0, 4001);
+  		}),
+  		$.get("maps/59_14_1.txt", function(data) {
+  			drawMap(data, 2001, 6001, 0);
+  		}),
+  		$.get("maps/59_14_2.txt", function(data) {
+  			drawMap(data, 2001, 6001, 2001);
+  		}),
+  		$.get("maps/59_14_3.txt", function(data) {
+  			drawMap(data, 2002, 6001, 4001);
   		})
   	).then(function() {
   		console.log("all done");
