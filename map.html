@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Java Island</title>
+	<style type="text/css">
+		html, body {
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="12002" height="6001"></canvas>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#00FF00";
+
+  	$.when(
+  		$.get("maps/58_14.in", function(map1) {
+  			console.log("map1 start");
+  			var map = map1.split("\n");
+	      for (var i = 0; i < 6001; i++) {
+	      	var coor = map[i].split(" ");
+	      	for (var j = 0; j < 6001; j++) {
+						if (coor[j] != -9999) {
+							ctx.fillRect(j, i, 1, 1);
+						}
+					}
+				}
+				console.log("map1 done");
+  		}),
+  		$.get("maps/59_14.in", function(map2) {
+  			console.log("map2 start");
+  			var map = map2.split("\n");
+	      for (var i = 0; i < 6001; i++) {
+	      	var coor = map[i].split(" ");
+	      	for (var j = 0; j < 6001; j++) {
+						if (coor[j] != -9999) {
+							ctx.fillRect(j+6001, i, 1, 1);
+						}
+					}
+				}
+				console.log("map2 done");
+  		})
+  	).then(function() {
+  		console.log("all done");
+  	});
+	</script>
+</body>
+</html>
