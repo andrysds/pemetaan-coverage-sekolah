@@ -4,91 +4,18 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Visualisasi Coverage Menggunakan Diagram Voronoi</title>
+	<title>Visualisasi coverage sekolah menggunakan diagram Voronoi dan HTML 5</title>
 	
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/ie10-viewport-bug-workaround.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="text/javascript" src="bootstrap/js/ie-emulation-modes-warning.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<p class="navbar-brand"><strong>
-					Visualisasi Coverage Menggunakan Diagram Voronoi
-				</strong></p>
-			</div>
-		</div>
-	</nav>
-
-	<div class="container-fluid wrapper">
-		<div class="row full">
-			<div class="col-md-3 sidebar">
-				<form class="form-inline">
-					<label>Area Size</label>
-					<div class="form-group">
-						<div class="input-group col-md-5">
-							<div class="input-group-addon">W</div>
-							<input class="form-control" id="width" placeholder="Width">
-						</div>
-						<span> &times; </span>
-						<div class="input-group col-md-5">
-							<div class="input-group-addon">H</div>
-							<input class="form-control" id="heigth" placeholder="Heigth">
-						</div>
-					</div>
-				</form>
-				<div class="form">
-					<div class="form-group">
-						<label>Input Sites</label>
-						<textarea class="form-control" rows="10" id="input"></textarea>
-						<span id="helpBlock" class="help-block">
-							See input explanation
-							<a href="#" data-toggle="modal" data-target="#inputExplanation">here</a>.
-						</span>
-					</div>
-					<button type="submit" class="btn btn-default" id="submitInput">Submit</button>
-				</div>
-			</div>
-			<div class="col-md-9 main">
-				<canvas id="diagram">
-					Your browser does not support the canvas element.
-				</canvas>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="inputExplanation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Input Explanation</h4>
-				</div>
-				<div class="modal-body">
-					<p>
-						Input consists of N line(s) for each sites. Each line consists of two integer for site's x-coordinate and y-coordinate.
-					</p>
-					<p>
-						Example :<br>
-						<div class="well">
-							150 150<br>
-							250 250<br>
-							125 400<br>
-							400 300<br>
-							375 125<br>
-						</div>
-					</p>
-					<p>The input above will give 5 sites { (150,150), (250, 250), (125,400), (400,300), (375,125) } for program to generate the diagram.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<canvas id="myCanvas" width="12002" height="6001"></canvas>
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-	<script type="text/javascript" src="voronoi.js"></script>
-	<script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="js/voronoi.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
