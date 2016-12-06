@@ -209,25 +209,3 @@ function generateVoronoi(points, width, height) {
 
 	return voronoiEdges;
 }
-
-function drawVertices(ctx, vertices) {
-  ctx.fillStyle = "#F44336";
-  for (i in vertices) {
-    ctx.beginPath();
-    ctx.arc(vertices[i].x, vertices[i].y, 20, 0, Math.PI * 2); 
-    ctx.closePath();
-    ctx.fill();
-  }
-}
-
-function drawEdges(ctx, edges) {
-  ctx.strokeStyle="#0277BD";
-  ctx.lineWidth = 50;
-  ctx.lineCap = 'round';
-  for(i in edges) {
-    ctx.beginPath();
-    ctx.moveTo(edges[i].v1.x, edges[i].v1.y);
-    ctx.lineTo(edges[i].v2.x, edges[i].v2.y);
-    ctx.stroke();
-  }
-}
