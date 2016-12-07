@@ -1,25 +1,102 @@
-$(document).ready(function() {
-		var ctx = document.getElementById("myCanvas").getContext("2d");
-    
-    var map = new Image;
-		map.src = "data/maps/jawa.png";
-		map.onload = function() {
-			ctx.drawImage(map, 0, 0);
-			
-    	$.get("data/schools/jawa.json", function(data) {
-		    var schools = [];
-		    for (var i = 0; i < 200; i++) {
-		      schools.push(new Vertex(data[i].longitude, data[i].latitude));
-		    }
+var canvas;
+var ctx;
+var pWidth;
+var pHeight;
 
-		    var voronoi = generateVoronoi(schools, 120001, 6001);
-		    drawVertices(ctx, schools);
-		    drawEdges(ctx, voronoi);
-		  });
-		}
+var map;
+var schools = [];
+var voronoi = [];
+
+var scaleLevel = 0;
+var minScale;
+
+$(document).ready(function() {
+  canvas = $("#my-canvas")[0];
+  ctx = canvas.getContext("2d");
+
+  pWidth  = window.innerWidth;
+  pHeight = window.innerHeight;
+
+  map = new Image;
+  map.src = "data/maps/jawa.png";
+
+  map.onload = function() {
+    $("#loader").hide();
+    $("#wrapper").show();
+
+    computeMinimumScale();
+    drawTransformed();
+  };
+
+  $("input[type=radio][name=data]").change(function() {
+    schools = [];
+    voronoi = [];
+
+    $.get("data/schools/" + this.value + ".json", function(data) {
+      for (var i = 0; i < data.length; i++) {
+        var v = new Vertex(data[i].longitude, data[i].latitude);
+        schools.push(v);
+      }
+      voronoi = generateVoronoi(schools, map.width, map.height);
+
+      drawTransformed();
+    });
+  });
+
+  $("#zoom-in-btn").click(function() {
+    var newSF = Math.pow(1.5, scaleLevel) * minScale;
+    if (newSF <= 1.5) {
+      scaleLevel++;
+      pWidth *= 1.5;
+      pHeight *= 1.5;
+      drawTransformed();
+    }
+  });
+
+  $("#zoom-out-btn").click(function() {
+    if (scaleLevel > 0) {
+      scaleLevel--;
+      pWidth /= 1.5;
+      pHeight /= 1.5;
+      drawTransformed();
+    }
+  });
 });
 
-function drawVertices(ctx, vertices) {
+function computeMinimumScale() {
+  var sf1 = pWidth / map.width;
+  var sf2 = pHeight / map.height;
+
+  if (sf1 > sf2) {
+    minScale = sf1;
+  }
+  else {
+    minScale = sf2;
+  }
+}
+
+function drawTransformed() {
+  canvas.width = pWidth;
+  canvas.height = pHeight;
+
+  ctx.clearRect(0, 0, pWidth, pHeight);
+  ctx.save();
+
+  var scale = minScale * Math.pow(1.5, scaleLevel);
+  ctx.scale(scale, scale);
+  
+  ctx.drawImage(map, 0, 0);
+  if (schools.length > 0) {
+    drawVertices(schools);
+  }
+  if (voronoi.length > 0) {
+    drawEdges(voronoi);
+  }
+
+  ctx.restore();
+}
+
+function drawVertices(vertices) {
   ctx.fillStyle = "#F44336";
   for (i in vertices) {
     ctx.beginPath();
@@ -29,7 +106,7 @@ function drawVertices(ctx, vertices) {
   }
 }
 
-function drawEdges(ctx, edges) {
+function drawEdges(edges) {
   ctx.strokeStyle="#00b3fd";
   ctx.lineWidth = 10;
   ctx.lineCap = 'round';

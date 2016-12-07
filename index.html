@@ -9,9 +9,33 @@
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/ie10-viewport-bug-workaround.css">
 	<script type="text/javascript" src="bootstrap/js/ie-emulation-modes-warning.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<canvas id="myCanvas" width="12002" height="6001"></canvas>
+	<div id="wrapper">
+		<div id="data-selection">
+			<div class="radio">
+			  <label class="data-select">
+			    <input type="radio" name="data" value="jawa">
+			    SMA di pulau Jawa
+			  </label>
+			</div>
+			<div class="radio">
+			  <label class="data-select">
+			    <input type="radio" name="data" value="sukolilo">
+			    SMA di kecamatan Sukolilo
+			  </label>
+			</div>
+		</div>
+	 	<div id="zoom-button">
+			<button id="zoom-in-btn" class="btn btn-default" type="submit">&plus;</button>
+			<button id="zoom-out-btn" class="btn btn-default" type="submit">&minus;</button>
+		</div>
+		<canvas id="my-canvas">
+			Your browser does not support the canvas element.
+		</canvas>
+	</div>
+	<div id="loader"></div>
 	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/ie10-viewport-bug-workaround.js"></script>
