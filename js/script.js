@@ -1,6 +1,6 @@
 var canvas;
 var ctx;
-var scaleLevel = 0.12;
+var scale = 0.12;
 var lineWidth = 10;
 var map = new Image();
 
@@ -33,12 +33,12 @@ function drawEdges(edges) {
 }
 
 function drawTransformed() {
-  canvas.width = scaleLevel * map.width;
-  canvas.height = scaleLevel * map.height;
+  canvas.width = scale * map.width;
+  canvas.height = scale * map.height;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
-  ctx.scale(scaleLevel, scaleLevel);
+  ctx.scale(scale, scale);
   ctx.drawImage(map, 0, 0);
   if (edges.length > 0) {
     drawVertices(vertices);
@@ -59,9 +59,6 @@ fr.onload = function(e) {
   edges.length = 0;
 
   schools = JSON.parse(fr.result);
-
-  console.log(schools);
-
   for (var i = 0; i < schools.length; i++) {
     var vertex = new Vertex(
       geoToMapX(schools[i].longitude),
@@ -86,18 +83,34 @@ $("#schools-input").change(function() {
 });
 
 $("#zoom-in-btn").click(function() {
-  if (scaleLevel < 1.5) {
-    scaleLevel *= 2;
+  if (scale < 1.9) {
+    scale *= 2;
     lineWidth /= 2;
+
+    var centerX = window.scrollX + window.innerWidth  / 2;
+    var centerY = window.scrollY + window.innerHeight / 2;
+
     drawTransformed();
+
+    var scrollX = centerX * 2 - window.innerWidth  / 2;
+    var scrollY = centerY * 2 - window.innerHeight / 2;
+    window.scrollTo(scrollX, scrollY);
   }
 });
 
 $("#zoom-out-btn").click(function() {
-  if (scaleLevel > 0.2) {
-    scaleLevel /= 2;
+  if (scale > 0.12) {
+    scale /= 2;
     lineWidth *= 2;
+
+    var centerX = window.scrollX + window.innerWidth  / 2;
+    var centerY = window.scrollY + window.innerHeight / 2;
+    
     drawTransformed();
+
+    var scrollX = centerX / 2 - window.innerWidth  / 2;
+    var scrollY = centerY / 2 - window.innerHeight / 2;
+    window.scrollTo(scrollX, scrollY);
   }
 });
 
