@@ -1,0 +1,1010 @@
+{
+  "area": {
+    "x": 105.062256,
+    "y": -5.852547,
+    "width": 9.558105,
+    "height": 2.952634
+  },
+  "schools": [
+    {
+      "name": "Sekolah 1",
+      "longitude": 1608,
+      "latitude": 2118
+    },
+    {
+      "name": "Sekolah 2",
+      "longitude": 1600,
+      "latitude": 1602
+    },
+    {
+      "name": "Sekolah 3",
+      "longitude": 1748,
+      "latitude": 2093
+    },
+    {
+      "name": "Sekolah 4",
+      "longitude": 1170,
+      "latitude": 1687
+    },
+    {
+      "name": "Sekolah 5",
+      "longitude": 1453,
+      "latitude": 1813
+    },
+    {
+      "name": "Sekolah 6",
+      "longitude": 1204,
+      "latitude": 1492
+    },
+    {
+      "name": "Sekolah 7",
+      "longitude": 1374,
+      "latitude": 1888
+    },
+    {
+      "name": "Sekolah 8",
+      "longitude": 1944,
+      "latitude": 2002
+    },
+    {
+      "name": "Sekolah 9",
+      "longitude": 1911,
+      "latitude": 1859
+    },
+    {
+      "name": "Sekolah 10",
+      "longitude": 1404,
+      "latitude": 1979
+    },
+    {
+      "name": "Sekolah 11",
+      "longitude": 2432,
+      "latitude": 1870
+    },
+    {
+      "name": "Sekolah 12",
+      "longitude": 1305,
+      "latitude": 1623
+    },
+    {
+      "name": "Sekolah 13",
+      "longitude": 1654,
+      "latitude": 1923
+    },
+    {
+      "name": "Sekolah 14",
+      "longitude": 1703,
+      "latitude": 1615
+    },
+    {
+      "name": "Sekolah 15",
+      "longitude": 1471,
+      "latitude": 1365
+    },
+    {
+      "name": "Sekolah 16",
+      "longitude": 2337,
+      "latitude": 1712
+    },
+    {
+      "name": "Sekolah 17",
+      "longitude": 1707,
+      "latitude": 1827
+    },
+    {
+      "name": "Sekolah 18",
+      "longitude": 1859,
+      "latitude": 1634
+    },
+    {
+      "name": "Sekolah 19",
+      "longitude": 1272,
+      "latitude": 1955
+    },
+    {
+      "name": "Sekolah 20",
+      "longitude": 2606,
+      "latitude": 1663
+    },
+    {
+      "name": "Sekolah 21",
+      "longitude": 1691,
+      "latitude": 1719
+    },
+    {
+      "name": "Sekolah 22",
+      "longitude": 1805,
+      "latitude": 1936
+    },
+    {
+      "name": "Sekolah 23",
+      "longitude": 1971,
+      "latitude": 1502
+    },
+    {
+      "name": "Sekolah 24",
+      "longitude": 1529,
+      "latitude": 1464
+    },
+    {
+      "name": "Sekolah 25",
+      "longitude": 2139,
+      "latitude": 2083
+    },
+    {
+      "name": "Sekolah 26",
+      "longitude": 2608,
+      "latitude": 1990
+    },
+    {
+      "name": "Sekolah 27",
+      "longitude": 1281,
+      "latitude": 1465
+    },
+    {
+      "name": "Sekolah 28",
+      "longitude": 2125,
+      "latitude": 1953
+    },
+    {
+      "name": "Sekolah 29",
+      "longitude": 1393,
+      "latitude": 1721
+    },
+    {
+      "name": "Sekolah 30",
+      "longitude": 1981,
+      "latitude": 1716
+    },
+    {
+      "name": "Sekolah 31",
+      "longitude": 2303,
+      "latitude": 2664
+    },
+    {
+      "name": "Sekolah 32",
+      "longitude": 3104,
+      "latitude": 2234
+    },
+    {
+      "name": "Sekolah 33",
+      "longitude": 3007,
+      "latitude": 2341
+    },
+    {
+      "name": "Sekolah 34",
+      "longitude": 2646,
+      "latitude": 2413
+    },
+    {
+      "name": "Sekolah 35",
+      "longitude": 2798,
+      "latitude": 2795
+    },
+    {
+      "name": "Sekolah 36",
+      "longitude": 2285,
+      "latitude": 2549
+    },
+    {
+      "name": "Sekolah 37",
+      "longitude": 3981,
+      "latitude": 2412
+    },
+    {
+      "name": "Sekolah 38",
+      "longitude": 3878,
+      "latitude": 2437
+    },
+    {
+      "name": "Sekolah 39",
+      "longitude": 3987,
+      "latitude": 2734
+    },
+    {
+      "name": "Sekolah 40",
+      "longitude": 4269,
+      "latitude": 2466
+    },
+    {
+      "name": "Sekolah 41",
+      "longitude": 2231,
+      "latitude": 2785
+    },
+    {
+      "name": "Sekolah 42",
+      "longitude": 3850,
+      "latitude": 2716
+    },
+    {
+      "name": "Sekolah 43",
+      "longitude": 2590,
+      "latitude": 2739
+    },
+    {
+      "name": "Sekolah 44",
+      "longitude": 3009,
+      "latitude": 2743
+    },
+    {
+      "name": "Sekolah 45",
+      "longitude": 4290,
+      "latitude": 2366
+    },
+    {
+      "name": "Sekolah 46",
+      "longitude": 3455,
+      "latitude": 2534
+    },
+    {
+      "name": "Sekolah 47",
+      "longitude": 4270,
+      "latitude": 2733
+    },
+    {
+      "name": "Sekolah 48",
+      "longitude": 2878,
+      "latitude": 2603
+    },
+    {
+      "name": "Sekolah 49",
+      "longitude": 2665,
+      "latitude": 2543
+    },
+    {
+      "name": "Sekolah 50",
+      "longitude": 4405,
+      "latitude": 2788
+    },
+    {
+      "name": "Sekolah 51",
+      "longitude": 2636,
+      "latitude": 2297
+    },
+    {
+      "name": "Sekolah 52",
+      "longitude": 2556,
+      "latitude": 2231
+    },
+    {
+      "name": "Sekolah 53",
+      "longitude": 4070,
+      "latitude": 2668
+    },
+    {
+      "name": "Sekolah 54",
+      "longitude": 3368,
+      "latitude": 2328
+    },
+    {
+      "name": "Sekolah 55",
+      "longitude": 2408,
+      "latitude": 2516
+    },
+    {
+      "name": "Sekolah 56",
+      "longitude": 4453,
+      "latitude": 2601
+    },
+    {
+      "name": "Sekolah 57",
+      "longitude": 2139,
+      "latitude": 2800
+    },
+    {
+      "name": "Sekolah 58",
+      "longitude": 3783,
+      "latitude": 2313
+    },
+    {
+      "name": "Sekolah 59",
+      "longitude": 2294,
+      "latitude": 2362
+    },
+    {
+      "name": "Sekolah 60",
+      "longitude": 2394,
+      "latitude": 2328
+    },
+    {
+      "name": "Sekolah 61",
+      "longitude": 8767,
+      "latitude": 3635
+    },
+    {
+      "name": "Sekolah 62",
+      "longitude": 9007,
+      "latitude": 3709
+    },
+    {
+      "name": "Sekolah 63",
+      "longitude": 9119,
+      "latitude": 3656
+    },
+    {
+      "name": "Sekolah 64",
+      "longitude": 7895,
+      "latitude": 3432
+    },
+    {
+      "name": "Sekolah 65",
+      "longitude": 8977,
+      "latitude": 3828
+    },
+    {
+      "name": "Sekolah 66",
+      "longitude": 8792,
+      "latitude": 3875
+    },
+    {
+      "name": "Sekolah 67",
+      "longitude": 9731,
+      "latitude": 3694
+    },
+    {
+      "name": "Sekolah 68",
+      "longitude": 9979,
+      "latitude": 3640
+    },
+    {
+      "name": "Sekolah 69",
+      "longitude": 9312,
+      "latitude": 3899
+    },
+    {
+      "name": "Sekolah 70",
+      "longitude": 9071,
+      "latitude": 3870
+    },
+    {
+      "name": "Sekolah 71",
+      "longitude": 9778,
+      "latitude": 3386
+    },
+    {
+      "name": "Sekolah 72",
+      "longitude": 7562,
+      "latitude": 3703
+    },
+    {
+      "name": "Sekolah 73",
+      "longitude": 8492,
+      "latitude": 3558
+    },
+    {
+      "name": "Sekolah 74",
+      "longitude": 9680,
+      "latitude": 3481
+    },
+    {
+      "name": "Sekolah 75",
+      "longitude": 9535,
+      "latitude": 3720
+    },
+    {
+      "name": "Sekolah 76",
+      "longitude": 8402,
+      "latitude": 3604
+    },
+    {
+      "name": "Sekolah 77",
+      "longitude": 9797,
+      "latitude": 3867
+    },
+    {
+      "name": "Sekolah 78",
+      "longitude": 7560,
+      "latitude": 3441
+    },
+    {
+      "name": "Sekolah 79",
+      "longitude": 8678,
+      "latitude": 3876
+    },
+    {
+      "name": "Sekolah 80",
+      "longitude": 9516,
+      "latitude": 3874
+    },
+    {
+      "name": "Sekolah 81",
+      "longitude": 9190,
+      "latitude": 3549
+    },
+    {
+      "name": "Sekolah 82",
+      "longitude": 8102,
+      "latitude": 3517
+    },
+    {
+      "name": "Sekolah 83",
+      "longitude": 8076,
+      "latitude": 3845
+    },
+    {
+      "name": "Sekolah 84",
+      "longitude": 9030,
+      "latitude": 3482
+    },
+    {
+      "name": "Sekolah 85",
+      "longitude": 8718,
+      "latitude": 3500
+    },
+    {
+      "name": "Sekolah 86",
+      "longitude": 9411,
+      "latitude": 3491
+    },
+    {
+      "name": "Sekolah 87",
+      "longitude": 7740,
+      "latitude": 3703
+    },
+    {
+      "name": "Sekolah 88",
+      "longitude": 9855,
+      "latitude": 3682
+    },
+    {
+      "name": "Sekolah 89",
+      "longitude": 8862,
+      "latitude": 3576
+    },
+    {
+      "name": "Sekolah 90",
+      "longitude": 9870,
+      "latitude": 3486
+    },
+    {
+      "name": "Sekolah 91",
+      "longitude": 6206,
+      "latitude": 3080
+    },
+    {
+      "name": "Sekolah 92",
+      "longitude": 5263,
+      "latitude": 2340
+    },
+    {
+      "name": "Sekolah 93",
+      "longitude": 6689,
+      "latitude": 2456
+    },
+    {
+      "name": "Sekolah 94",
+      "longitude": 5577,
+      "latitude": 2733
+    },
+    {
+      "name": "Sekolah 95",
+      "longitude": 7540,
+      "latitude": 2312
+    },
+    {
+      "name": "Sekolah 96",
+      "longitude": 6830,
+      "latitude": 2715
+    },
+    {
+      "name": "Sekolah 97",
+      "longitude": 7076,
+      "latitude": 2960
+    },
+    {
+      "name": "Sekolah 98",
+      "longitude": 6266,
+      "latitude": 2539
+    },
+    {
+      "name": "Sekolah 99",
+      "longitude": 6953,
+      "latitude": 2404
+    },
+    {
+      "name": "Sekolah 100",
+      "longitude": 5870,
+      "latitude": 2906
+    },
+    {
+      "name": "Sekolah 101",
+      "longitude": 6048,
+      "latitude": 2991
+    },
+    {
+      "name": "Sekolah 102",
+      "longitude": 8128,
+      "latitude": 2913
+    },
+    {
+      "name": "Sekolah 103",
+      "longitude": 7831,
+      "latitude": 2507
+    },
+    {
+      "name": "Sekolah 104",
+      "longitude": 6840,
+      "latitude": 2938
+    },
+    {
+      "name": "Sekolah 105",
+      "longitude": 5524,
+      "latitude": 2350
+    },
+    {
+      "name": "Sekolah 106",
+      "longitude": 7386,
+      "latitude": 3074
+    },
+    {
+      "name": "Sekolah 107",
+      "longitude": 7099,
+      "latitude": 2698
+    },
+    {
+      "name": "Sekolah 108",
+      "longitude": 5029,
+      "latitude": 2874
+    },
+    {
+      "name": "Sekolah 109",
+      "longitude": 4961,
+      "latitude": 2523
+    },
+    {
+      "name": "Sekolah 110",
+      "longitude": 7985,
+      "latitude": 2953
+    },
+    {
+      "name": "Sekolah 111",
+      "longitude": 7037,
+      "latitude": 2494
+    },
+    {
+      "name": "Sekolah 112",
+      "longitude": 8325,
+      "latitude": 2840
+    },
+    {
+      "name": "Sekolah 113",
+      "longitude": 5155,
+      "latitude": 2865
+    },
+    {
+      "name": "Sekolah 114",
+      "longitude": 5199,
+      "latitude": 2999
+    },
+    {
+      "name": "Sekolah 115",
+      "longitude": 7487,
+      "latitude": 2502
+    },
+    {
+      "name": "Sekolah 116",
+      "longitude": 5734,
+      "latitude": 2870
+    },
+    {
+      "name": "Sekolah 117",
+      "longitude": 5130,
+      "latitude": 2771
+    },
+    {
+      "name": "Sekolah 118",
+      "longitude": 8303,
+      "latitude": 2523
+    },
+    {
+      "name": "Sekolah 119",
+      "longitude": 5036,
+      "latitude": 3042
+    },
+    {
+      "name": "Sekolah 120",
+      "longitude": 5086,
+      "latitude": 2645
+    },
+    {
+      "name": "Sekolah 121",
+      "longitude": 8513,
+      "latitude": 2730
+    },
+    {
+      "name": "Sekolah 122",
+      "longitude": 7405,
+      "latitude": 2797
+    },
+    {
+      "name": "Sekolah 123",
+      "longitude": 6519,
+      "latitude": 2432
+    },
+    {
+      "name": "Sekolah 124",
+      "longitude": 5515,
+      "latitude": 2520
+    },
+    {
+      "name": "Sekolah 125",
+      "longitude": 6136,
+      "latitude": 2489
+    },
+    {
+      "name": "Sekolah 126",
+      "longitude": 8715,
+      "latitude": 2371
+    },
+    {
+      "name": "Sekolah 127",
+      "longitude": 5554,
+      "latitude": 2966
+    },
+    {
+      "name": "Sekolah 128",
+      "longitude": 7389,
+      "latitude": 2672
+    },
+    {
+      "name": "Sekolah 129",
+      "longitude": 5489,
+      "latitude": 2709
+    },
+    {
+      "name": "Sekolah 130",
+      "longitude": 8488,
+      "latitude": 2906
+    },
+    {
+      "name": "Sekolah 131",
+      "longitude": 7414,
+      "latitude": 2205
+    },
+    {
+      "name": "Sekolah 132",
+      "longitude": 7673,
+      "latitude": 2761
+    },
+    {
+      "name": "Sekolah 133",
+      "longitude": 5755,
+      "latitude": 2365
+    },
+    {
+      "name": "Sekolah 134",
+      "longitude": 8695,
+      "latitude": 2470
+    },
+    {
+      "name": "Sekolah 135",
+      "longitude": 8266,
+      "latitude": 3047
+    },
+    {
+      "name": "Sekolah 136",
+      "longitude": 7657,
+      "latitude": 2836
+    },
+    {
+      "name": "Sekolah 137",
+      "longitude": 8034,
+      "latitude": 2446
+    },
+    {
+      "name": "Sekolah 138",
+      "longitude": 8892,
+      "latitude": 2943
+    },
+    {
+      "name": "Sekolah 139",
+      "longitude": 7592,
+      "latitude": 2447
+    },
+    {
+      "name": "Sekolah 140",
+      "longitude": 6687,
+      "latitude": 3060
+    },
+    {
+      "name": "Sekolah 141",
+      "longitude": 8652,
+      "latitude": 2667
+    },
+    {
+      "name": "Sekolah 142",
+      "longitude": 8518,
+      "latitude": 2974
+    },
+    {
+      "name": "Sekolah 143",
+      "longitude": 7395,
+      "latitude": 2422
+    },
+    {
+      "name": "Sekolah 144",
+      "longitude": 7490,
+      "latitude": 2601
+    },
+    {
+      "name": "Sekolah 145",
+      "longitude": 7253,
+      "latitude": 2966
+    },
+    {
+      "name": "Sekolah 146",
+      "longitude": 5305,
+      "latitude": 3063
+    },
+    {
+      "name": "Sekolah 147",
+      "longitude": 8347,
+      "latitude": 3079
+    },
+    {
+      "name": "Sekolah 148",
+      "longitude": 8220,
+      "latitude": 2689
+    },
+    {
+      "name": "Sekolah 149",
+      "longitude": 5751,
+      "latitude": 2763
+    },
+    {
+      "name": "Sekolah 150",
+      "longitude": 7970,
+      "latitude": 2870
+    },
+    {
+      "name": "Sekolah 151",
+      "longitude": 10988,
+      "latitude": 3949
+    },
+    {
+      "name": "Sekolah 152",
+      "longitude": 10596,
+      "latitude": 3734
+    },
+    {
+      "name": "Sekolah 153",
+      "longitude": 10420,
+      "latitude": 3573
+    },
+    {
+      "name": "Sekolah 154",
+      "longitude": 10087,
+      "latitude": 3611
+    },
+    {
+      "name": "Sekolah 155",
+      "longitude": 10433,
+      "latitude": 3418
+    },
+    {
+      "name": "Sekolah 156",
+      "longitude": 10085,
+      "latitude": 3698
+    },
+    {
+      "name": "Sekolah 157",
+      "longitude": 10992,
+      "latitude": 3567
+    },
+    {
+      "name": "Sekolah 158",
+      "longitude": 10921,
+      "latitude": 3502
+    },
+    {
+      "name": "Sekolah 159",
+      "longitude": 10693,
+      "latitude": 3876
+    },
+    {
+      "name": "Sekolah 160",
+      "longitude": 10917,
+      "latitude": 3947
+    },
+    {
+      "name": "Sekolah 161",
+      "longitude": 10441,
+      "latitude": 3965
+    },
+    {
+      "name": "Sekolah 162",
+      "longitude": 10701,
+      "latitude": 3456
+    },
+    {
+      "name": "Sekolah 163",
+      "longitude": 10752,
+      "latitude": 3847
+    },
+    {
+      "name": "Sekolah 164",
+      "longitude": 10365,
+      "latitude": 3940
+    },
+    {
+      "name": "Sekolah 165",
+      "longitude": 10984,
+      "latitude": 3833
+    },
+    {
+      "name": "Sekolah 166",
+      "longitude": 2982,
+      "latitude": 1914
+    },
+    {
+      "name": "Sekolah 167",
+      "longitude": 3453,
+      "latitude": 1879
+    },
+    {
+      "name": "Sekolah 168",
+      "longitude": 3343,
+      "latitude": 1728
+    },
+    {
+      "name": "Sekolah 169",
+      "longitude": 3763,
+      "latitude": 1736
+    },
+    {
+      "name": "Sekolah 170",
+      "longitude": 3988,
+      "latitude": 1672
+    },
+    {
+      "name": "Sekolah 171",
+      "longitude": 3912,
+      "latitude": 1753
+    },
+    {
+      "name": "Sekolah 172",
+      "longitude": 3951,
+      "latitude": 1557
+    },
+    {
+      "name": "Sekolah 173",
+      "longitude": 3036,
+      "latitude": 1748
+    },
+    {
+      "name": "Sekolah 174",
+      "longitude": 3846,
+      "latitude": 2227
+    },
+    {
+      "name": "Sekolah 175",
+      "longitude": 2925,
+      "latitude": 1736
+    },
+    {
+      "name": "Sekolah 176",
+      "longitude": 3828,
+      "latitude": 1879
+    },
+    {
+      "name": "Sekolah 177",
+      "longitude": 3186,
+      "latitude": 1757
+    },
+    {
+      "name": "Sekolah 178",
+      "longitude": 2990,
+      "latitude": 1637
+    },
+    {
+      "name": "Sekolah 179",
+      "longitude": 3960,
+      "latitude": 1854
+    },
+    {
+      "name": "Sekolah 180",
+      "longitude": 3168,
+      "latitude": 1906
+    },
+    {
+      "name": "Sekolah 181",
+      "longitude": 6346,
+      "latitude": 3405
+    },
+    {
+      "name": "Sekolah 182",
+      "longitude": 6876,
+      "latitude": 3392
+    },
+    {
+      "name": "Sekolah 183",
+      "longitude": 6777,
+      "latitude": 3524
+    },
+    {
+      "name": "Sekolah 184",
+      "longitude": 6479,
+      "latitude": 3457
+    },
+    {
+      "name": "Sekolah 185",
+      "longitude": 6541,
+      "latitude": 3413
+    },
+    {
+      "name": "Sekolah 186",
+      "longitude": 6629,
+      "latitude": 3307
+    },
+    {
+      "name": "Sekolah 187",
+      "longitude": 7051,
+      "latitude": 3478
+    },
+    {
+      "name": "Sekolah 188",
+      "longitude": 7043,
+      "latitude": 3391
+    },
+    {
+      "name": "Sekolah 189",
+      "longitude": 6834,
+      "latitude": 3672
+    },
+    {
+      "name": "Sekolah 190",
+      "longitude": 6598,
+      "latitude": 3595
+    },
+    {
+      "name": "Sekolah 191",
+      "longitude": 8634,
+      "latitude": 2867
+    },
+    {
+      "name": "Sekolah 192",
+      "longitude": 8852,
+      "latitude": 2395
+    },
+    {
+      "name": "Sekolah 193",
+      "longitude": 8995,
+      "latitude": 2369
+    },
+    {
+      "name": "Sekolah 194",
+      "longitude": 8970,
+      "latitude": 2691
+    },
+    {
+      "name": "Sekolah 195",
+      "longitude": 8863,
+      "latitude": 2740
+    },
+    {
+      "name": "Sekolah 196",
+      "longitude": 8936,
+      "latitude": 2578
+    },
+    {
+      "name": "Sekolah 197",
+      "longitude": 9065,
+      "latitude": 2471
+    },
+    {
+      "name": "Sekolah 198",
+      "longitude": 9153,
+      "latitude": 2963
+    },
+    {
+      "name": "Sekolah 199",
+      "longitude": 8808,
+      "latitude": 2654
+    },
+    {
+      "name": "Sekolah 200",
+      "longitude": 8636,
+      "latitude": 2604
+    }
+  ]
+}

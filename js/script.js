@@ -1,98 +1,108 @@
 var canvas;
 var ctx;
+
+var map = new Image();
+var data;
+
 var pWidth;
 var pHeight;
 
-var map;
-var schools = [];
-var voronoi = [];
+var vertices = [];
+var edges = [];
 
+var scale;
 var scaleLevel = 0;
-var minScale;
+var fillScale;
 
 $(document).ready(function() {
-  canvas = $("#my-canvas")[0];
+  canvas = $("#canvas")[0];
   ctx = canvas.getContext("2d");
 
   pWidth  = window.innerWidth;
   pHeight = window.innerHeight;
 
-  map = new Image;
-  map.src = "data/maps/jawa.png";
+  $("#submit-btn").click(function() {
+    $("#input-data").hide();
+    $("#loader").show();
 
-  map.onload = function() {
-    $("#loader").hide();
-    $("#wrapper").show();
+    var mfr = new FileReader();
+    mfr.onload = function(e) {
+      map.src = mfr.result;
+      map.onload = function() {
+        computeFillScale();
 
-    computeMinimumScale();
-    drawTransformed();
-  };
+        var sfr = new FileReader();
+        sfr.onload = function(e) {
+          data = JSON.parse(sfr.result);
 
-  $("input[type=radio][name=data]").change(function() {
-    schools = [];
-    voronoi = [];
+          var schools = data.schools;
+          for (var i = 0; i < schools.length; i++) {
+            var vertex = new Vertex(
+              geoToMapX(schools[i].longitude),
+              geoToMapY(schools[i].latitude)
+            );
+            vertices.push(vertex);
+          }
+          edges = generateVoronoi(vertices, map.width, map.height);
 
-    $.get("data/schools/" + this.value + ".json", function(data) {
-      for (var i = 0; i < data.length; i++) {
-        var v = new Vertex(data[i].longitude, data[i].latitude);
-        schools.push(v);
-      }
-      voronoi = generateVoronoi(schools, map.width, map.height);
+          drawTransformed();
 
-      drawTransformed();
-    });
+          $("#loader").hide();
+          $("#mycanvas").show();
+        };
+
+        var schools_file = $("#schools-input")[0].files[0];
+        sfr.readAsText(schools_file);
+      };
+    }
+
+    var map_file = $("#map-input")[0].files[0];
+    mfr.readAsDataURL(map_file);
   });
 
   $("#zoom-in-btn").click(function() {
-    var newSF = Math.pow(1.5, scaleLevel) * minScale;
-    if (newSF <= 1.5) {
-      scaleLevel++;
-      pWidth *= 1.5;
-      pHeight *= 1.5;
-      drawTransformed();
-    }
+    scaleLevel++;
+    pWidth *= 1.5;
+    pHeight *= 1.5;
+    scale = fillScale * Math.pow(1.5, scaleLevel);
+    drawTransformed();
   });
 
   $("#zoom-out-btn").click(function() {
-    if (scaleLevel > 0) {
-      scaleLevel--;
-      pWidth /= 1.5;
-      pHeight /= 1.5;
-      drawTransformed();
-    }
+    scaleLevel--;
+    pWidth /= 1.5;
+    pHeight /= 1.5;
+    scale = fillScale * Math.pow(1.5, scaleLevel);
+    drawTransformed();
   });
 });
 
-function computeMinimumScale() {
+function computeFillScale() {
   var sf1 = pWidth / map.width;
   var sf2 = pHeight / map.height;
 
-  if (sf1 > sf2) {
-    minScale = sf1;
+  if (sf1 < sf2) {
+    fillScale = sf1;
+    scale = fillScale;
+    pHeight = fillScale * map.height;
   }
   else {
-    minScale = sf2;
+    fillScale = sf2;
+    scale = fillScale;
+    pWidth = fillScale * map.width;
   }
 }
 
-function drawTransformed() {
+function drawTransformed() {  
   canvas.width = pWidth;
   canvas.height = pHeight;
+  ctx.clearRect(0, 0, map.width, map.height);
 
-  ctx.clearRect(0, 0, pWidth, pHeight);
   ctx.save();
-
-  var scale = minScale * Math.pow(1.5, scaleLevel);
   ctx.scale(scale, scale);
-  
   ctx.drawImage(map, 0, 0);
-  if (schools.length > 0) {
-    drawVertices(schools);
-  }
-  if (voronoi.length > 0) {
-    drawEdges(voronoi);
-  }
-
+  drawVertices(vertices);
+  drawEdges(edges);
   ctx.restore();
 }
 
@@ -100,15 +110,15 @@ function drawVertices(vertices) {
   ctx.fillStyle = "#F44336";
   for (i in vertices) {
     ctx.beginPath();
-    ctx.arc(vertices[i].x, vertices[i].y, 20, 0, Math.PI * 2); 
+    ctx.arc(vertices[i].x, vertices[i].y, 1 / scale * 3, 0, Math.PI * 2); 
     ctx.closePath();
     ctx.fill();
   }
 }
 
 function drawEdges(edges) {
-  ctx.strokeStyle="#00b3fd";
-  ctx.lineWidth = 10;
+  ctx.strokeStyle = "#00b3fd";
+  ctx.lineWidth = 1 / scale * 2;
   ctx.lineCap = 'round';
   for(i in edges) {
     ctx.beginPath();
@@ -116,4 +126,12 @@ function drawEdges(edges) {
     ctx.lineTo(edges[i].v2.x, edges[i].v2.y);
     ctx.stroke();
   }
+}
+
+function geoToMapX(x) {
+  return (x - data.area.x) * map.width / data.area.width;
+}
+
+function geoToMapY(y) {
+  return (data.area.y - y) * map.height / data.area.height;
 }
