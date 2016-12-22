@@ -1,8 +1,20 @@
 var canvas;
 var ctx;
-var scale = 0.12;
-var lineWidth = 10;
 var map = new Image();
+
+var scale = 0.11;
+var lineWidth = 10;
+var centerX;
+var centerY;
+
+var x1 = 105;
+var y1 = -5;
+var areaWidth = 10;
+var areaHeight = 5;
+var viewWidth;
+var viewHeight;
+var sx = 0;
+var sy = 0;
 
 var schools;
 var fr = new FileReader();
@@ -14,7 +26,11 @@ function drawVertices(vertices) {
   ctx.fillStyle = "#F44336";
   for (i in vertices) {
     ctx.beginPath();
-    ctx.arc(vertices[i].x, vertices[i].y, lineWidth * 2, 0, Math.PI * 2);
+    ctx.arc(
+      geoToMapX(vertices[i].x),
+      geoToMapY(vertices[i].y), 
+      lineWidth * 2, 0, Math.PI * 2
+    );
     ctx.closePath();
     ctx.fill();
   }
@@ -26,20 +42,48 @@ function drawEdges(edges) {
   ctx.lineCap = 'round';
   for(i in edges) {
     ctx.beginPath();
-    ctx.moveTo(edges[i].v1.x, edges[i].v1.y);
-    ctx.lineTo(edges[i].v2.x, edges[i].v2.y);
+    ctx.moveTo(
+      geoToMapX(edges[i].v1.x),
+      geoToMapY(edges[i].v1.y)
+    );
+    ctx.lineTo(
+      geoToMapX(edges[i].v2.x),
+      geoToMapY(edges[i].v2.y)
+    );
     ctx.stroke();
   }
 }
 
 function drawTransformed() {
-  canvas.width = scale * map.width;
-  canvas.height = scale * map.height;
+  if (scale < 3) {
+    canvas.width = scale * viewWidth;
+    canvas.height = scale * viewHeight;
+  }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.scale(scale, scale);
-  ctx.drawImage(map, 0, 0);
+
+  if (scale < 3) {
+    ctx.drawImage(map, 0, 0);
+  }
+  else {
+    if (sx + viewWidth > map.width) {
+      sx = map.width - viewWidth;
+      x1 = 105;
+      x1 = mapToGeoX(sx);
+    }
+    if (sy + viewHeight > map.height) {
+      sy = map.height - viewHeight;
+      x1 = -5;
+      y1 = mapToGeoY(sy);
+    }
+    ctx.drawImage(map, sx, sy,
+      viewWidth, viewHeight, 0, 0, 
+      viewWidth, viewHeight
+    );
+  }
+
   if (edges.length > 0) {
     drawVertices(vertices);
     drawEdges(edges);
@@ -48,6 +92,9 @@ function drawTransformed() {
 }
 
 map.onload = function() {
+  viewWidth = map.width;
+  viewHeight = map.height;
+
   drawTransformed();
 
   $("#loader").hide();
@@ -61,8 +108,8 @@ fr.onload = function(e) {
   schools = JSON.parse(fr.result);
   for (var i = 0; i < schools.length; i++) {
     var vertex = new Vertex(
-      geoToMapX(schools[i].longitude),
-      geoToMapY(schools[i].latitude)
+      schools[i].longitude,
+      schools[i].latitude
     );
     vertices.push(vertex);
   }
@@ -83,41 +130,76 @@ $("#schools-input").change(function() {
 });
 
 $("#zoom-in-btn").click(function() {
-  if (scale < 1.9) {
+  if (scale < 2) {
+    centerX = window.scrollX + window.innerWidth  / 2;
+    centerY = window.scrollY + window.innerHeight / 2;
+
+    if (scale > 1.5) {
+      sx = window.scrollX / scale;
+      sy = window.scrollY / scale;
+      x1 = mapToGeoX(sx);
+      y1 = mapToGeoY(sy);
+      areaWidth /= 2;
+      areaHeight /= 2;
+      viewWidth /= 2;
+      viewHeight /= 2;
+    }
+
     scale *= 2;
     lineWidth /= 2;
 
-    var centerX = window.scrollX + window.innerWidth  / 2;
-    var centerY = window.scrollY + window.innerHeight / 2;
-
     drawTransformed();
 
-    var scrollX = centerX * 2 - window.innerWidth  / 2;
-    var scrollY = centerY * 2 - window.innerHeight / 2;
-    window.scrollTo(scrollX, scrollY);
+    window.scrollTo(
+      centerX * 2 - window.innerWidth  / 2 - sx * scale,
+      centerY * 2 - window.innerHeight / 2 - sy * scale
+    );
   }
 });
 
 $("#zoom-out-btn").click(function() {
-  if (scale > 0.12) {
-    scale /= 2;
-    lineWidth *= 2;
+  if (scale > 0.2) {
+    centerX = window.scrollX + window.innerWidth  / 2;
+    centerY = window.scrollY + window.innerHeight / 2;
 
-    var centerX = window.scrollX + window.innerWidth  / 2;
-    var centerY = window.scrollY + window.innerHeight / 2;
+    if (scale > 3) {
+      x1 = 105;
+      y1 = -5;
+      areaWidth *= 2;
+      areaHeight *= 2;
+      viewWidth *= 2;
+      viewHeight *= 2;
+    }
+
+    scale /= 2;
+    lineWidth *= 2;    2
     
     drawTransformed();
 
-    var scrollX = centerX / 2 - window.innerWidth  / 2;
-    var scrollY = centerY / 2 - window.innerHeight / 2;
-    window.scrollTo(scrollX, scrollY);
+    window.scrollTo(
+      centerX / 2 - window.innerWidth  / 2 + sx * scale,
+      centerY / 2 - window.innerHeight / 2 + sy * scale
+    );
+
+    if (scale > 3) {
+      sx = 0;
+      sy = 0;
+    }
   }
 });
 
 function geoToMapX(x) {
-  return (x - 105) * 1200.2;
+  return (x - x1) * viewWidth / areaWidth;
 }
 
 function geoToMapY(y) {
-  return (-5 - y) * 1200.2;
+  return (y1 - y) * viewHeight / areaHeight;
+}
+
+function mapToGeoX(x) {
+  return (x * areaWidth / viewWidth) + x1;
+}
+
+function mapToGeoY(y) {
+  return y1 - (y * areaHeight / viewHeight);
 }

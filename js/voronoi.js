@@ -20,7 +20,6 @@ function Edge(v1, v2) {
 function Triangle(vertices, edges) {
 	this.vertices = vertices;
 	this.edges = edges;
-	this.neighbours = [null, null, null];
 
 	this.computeCircumcirle = function() {
 		var v1 = this.vertices[0];
