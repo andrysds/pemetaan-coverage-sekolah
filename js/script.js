@@ -113,7 +113,7 @@ fr.onload = function(e) {
     );
     vertices.push(vertex);
   }
-  edges = generateVoronoi(vertices, map.width, map.height);
+  edges = generateVoronoi(vertices);
 
   drawTransformed();
 };

@@ -78,10 +78,35 @@ function Triangle(vertices, edges) {
 	}
 }
 
-function createSuperTriangle(width, height) {
-	var v1 = new Vertex(-1, -height-1);
-	var v2 = new Vertex(width * 2 + 1, height / 2);
-	var v3 = new Vertex(-1, height * 2 + 1);
+function createSuperTriangle(points) {
+	var x1 = points[0].x;
+	var x2 = points[0].x;
+	var y1 = points[0].y;
+	var y2 = points[0].y;
+
+	for (i = 1; i < points.length; i++) {
+		var point = points[i];
+
+		if (point.x < x1) {
+			x1 = point.x;
+		}
+		else if (point.x > x2) {
+			x2 = point.x;
+		}
+		if (point.y < y1) {
+			y1 = point.y;
+		}
+		else if (point.y > y2) {
+			y2 = point.y;
+		}
+	}
+
+	var width = x2 - x1;
+	var height = y2 - y1;
+
+	var v1 = new Vertex(x1, y1);
+	var v2 = new Vertex(x2 + width, y1);
+	var v3 = new Vertex(x1, y2 + height);
 
 	var e1 = new Edge(v1, v2);
 	var e2 = new Edge(v1, v3);
@@ -92,11 +117,11 @@ function createSuperTriangle(width, height) {
 
 function removeTriangles(triangles, triangulation) {
 	var new_triangulation = [];
-	for(i in triangulation) {
+	for (i in triangulation) {
 		var triangle1 = triangulation[i];
 
 		var goodTriangle = true;
-		for(j in triangles) {
+		for (j in triangles) {
 			var triangle2 = triangles[j];
 
 			if(triangle1.isEqual(triangle2)) {
@@ -113,10 +138,10 @@ function removeTriangles(triangles, triangulation) {
 	return new_triangulation;
 }
 
-function generateTriangulation(points, width, height) {
+function generateTriangulation(points) {
 	var triangulation = [];
 
-	var super_triangle = createSuperTriangle(width, height);
+	var super_triangle = createSuperTriangle(points);
 	triangulation.push(super_triangle);
 
 	for (var i in points) {
@@ -175,12 +200,12 @@ function generateTriangulation(points, width, height) {
 	return triangulation;
 }
 
-function generateVoronoi(points, width, height) {
+function generateVoronoi(points) {
 	var voronoiEdges = [];
 
-	var super_triangle = createSuperTriangle(width, height);
+	var super_triangle = createSuperTriangle(points);
 
-	var triangulation = generateTriangulation(points, width, height);
+	var triangulation = generateTriangulation(points);
 
 	for (var i in triangulation) {
 		var triangle = triangulation[i];
