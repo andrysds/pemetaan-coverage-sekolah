@@ -7,8 +7,8 @@ var lineWidth = 10;
 var centerX;
 var centerY;
 
-var x1 = 105;
-var y1 = -5;
+var sxGeo = 105;
+var syGeo = -5;
 var areaWidth = 10;
 var areaHeight = 5;
 var viewWidth;
@@ -24,19 +24,19 @@ var edges = [];
 var polygons = [];
 
 function geoToMapX(x) {
-  return (x - x1) * viewWidth / areaWidth;
+  return (x - sxGeo) * viewWidth / areaWidth;
 }
 
 function geoToMapY(y) {
-  return (y1 - y) * viewHeight / areaHeight;
+  return (syGeo - y) * viewHeight / areaHeight;
 }
 
 function mapToGeoX(x) {
-  return (x * areaWidth / viewWidth) + x1;
+  return (x * areaWidth / viewWidth) + sxGeo;
 }
 
 function mapToGeoY(y) {
-  return y1 - (y * areaHeight / viewHeight);
+  return syGeo - (y * areaHeight / viewHeight);
 }
 
 function drawVertices(vertices) {
@@ -75,9 +75,6 @@ function drawPolygons(polygons) {
   for (var i in polygons) {
     var polygon = polygons[i];
 
-    ctx.fillStyle = "#F44336";
-    ctx.strokeStyle = "#00b3fd";
-    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.moveTo(
       geoToMapX(polygon.edges[0].v1.x),
@@ -145,6 +142,7 @@ function drawPolygons(polygons) {
         }
       }
     }
+    ctx.fillStyle = "#F44336";
     ctx.fill();
   }
 }
@@ -165,13 +163,13 @@ function drawTransformed() {
   else {
     if (sx + viewWidth > map.width) {
       sx = map.width - viewWidth;
-      x1 = 105;
-      x1 = mapToGeoX(sx);
+      sxGeo = 105;
+      sxGeo = mapToGeoX(sx);
     }
     if (sy + viewHeight > map.height) {
       sy = map.height - viewHeight;
-      x1 = -5;
-      y1 = mapToGeoY(sy);
+      sxGeo = -5;
+      syGeo = mapToGeoY(sy);
     }
     ctx.drawImage(map, sx, sy,
       viewWidth, viewHeight, 0, 0, 
@@ -180,8 +178,8 @@ function drawTransformed() {
   }
 
   if (edges.length > 0) {
-    drawPolygons(polygons);
-    // drawVertices(vertices);
+    // drawPolygons(polygons);
+    drawVertices(vertices);
     drawEdges(edges);
   }
   ctx.restore();
@@ -209,7 +207,8 @@ fr.onload = function(e) {
     );
     vertices.push(vertex);
   }
-  var voronoi = generateVoronoi(vertices);
+  var area = indetifyArea(vertices);
+  var voronoi = generateVoronoi(vertices, area);
   edges = voronoi.edges;
   polygons = voronoi.polygons;
 
@@ -235,8 +234,8 @@ $("#zoom-in-btn").click(function() {
     if (scale > 1.5) {
       sx = window.scrollX / scale;
       sy = window.scrollY / scale;
-      x1 = mapToGeoX(sx);
-      y1 = mapToGeoY(sy);
+      sxGeo = mapToGeoX(sx);
+      syGeo = mapToGeoY(sy);
       areaWidth /= 2;
       areaHeight /= 2;
       viewWidth /= 2;
@@ -261,8 +260,8 @@ $("#zoom-out-btn").click(function() {
     centerY = window.scrollY + window.innerHeight / 2;
 
     if (scale > 3) {
-      x1 = 105;
-      y1 = -5;
+      sxGeo = 105;
+      syGeo = -5;
       areaWidth *= 2;
       areaHeight *= 2;
       viewWidth *= 2;

@@ -87,35 +87,49 @@ function Polygon(vertex) {
 	this.edges = [];
 }
 
-function createSuperTriangle(points) {
-	var x1 = points[0].x;
-	var x2 = points[0].x;
-	var y1 = points[0].y;
-	var y2 = points[0].y;
+function indetifyArea(vertices) {
+	var area = {
+		x1: null, y1: null,
+		x2: null, y2: null,
+		width: null, height: null
+	};
 
-	for (i = 1; i < points.length; i++) {
-		var point = points[i];
+	area.x1 = vertices[0].x;
+	area.y1 = vertices[0].y;
+	area.x2 = vertices[0].x;
+	area.y2 = vertices[0].y;
 
-		if (point.x < x1) {
-			x1 = point.x;
+	for (i = 1; i < vertices.length; i++) {
+		var vertex = vertices[i];
+
+		if (vertex.x < area.x1) {
+			area.x1 = vertex.x;
 		}
-		else if (point.x > x2) {
-			x2 = point.x;
+		else if (vertex.x > area.x2) {
+			area.x2 = vertex.x;
 		}
-		if (point.y < y1) {
-			y1 = point.y;
+		if (vertex.y < area.y1) {
+			area.y1 = vertex.y;
 		}
-		else if (point.y > y2) {
-			y2 = point.y;
+		else if (vertex.y > area.y2) {
+			area.y2 = vertex.y;
 		}
 	}
 
-	var width = x2 - x1;
-	var height = y2 - y1;
+	area.x1 -= 0.1;
+	area.y1 -= 0.1;
+	area.x2 += 0.1;
+	area.y2 += 0.1;
+	area.width = area.x2 - area.x1;
+	area.height = area.y2 - area.y1;
 
-	var v1 = new Vertex(x1, y1);
-	var v2 = new Vertex(x2 + width, y1);
-	var v3 = new Vertex(x1, y2 + height);
+	return area;
+}
+
+function createSuperTriangle(area) {
+	var v1 = new Vertex(area.x1, area.y1);
+	var v2 = new Vertex(area.x2 + area.width, area.y1);
+	var v3 = new Vertex(area.x1, area.y2 + area.height);
 
 	var e1 = new Edge(v1, v2);
 	var e2 = new Edge(v1, v3);
@@ -147,21 +161,64 @@ function removeTriangles(triangles, triangulation) {
 	return new_triangulation;
 }
 
-function generateTriangulation(points) {
+function validateEdgeByArea(edge, area) {
+	var x1 = edge.v1.x;
+	var y1 = edge.v1.y;
+	var x2 = edge.v2.x;
+	var y2 = edge.v2.y;
+	
+	if (edge.v1.x < area.x1) {
+		edge.v1.x = area.x1;
+		edge.v1.y = (area.x1 - x1) * (y2 - y1) / (x2 - x1) + y1;
+	}
+	else if (edge.v1.x > area.x2) {
+		edge.v1.x = area.x2;
+		edge.v1.y = (area.x2 - x1) * (y2 - y1) / (x2 - x1) + y1;
+	}
+	if (edge.v1.y < area.y1) {
+		edge.v1.x = (area.y1 - y1) * (x2 - x1) / (y2 - y1) + x1;
+		edge.v1.y = area.y1;
+	}
+	else if (edge.v1.y > area.y2) {
+		edge.v1.x = (area.y2 - y1) * (x2 - x1) / (y2 - y1) + x1;
+		edge.v1.y = area.y2;
+	}
+
+	if (edge.v2.x < area.x1) {
+		edge.v2.x = area.x1;
+		edge.v2.y = (area.x1 - x1) * (y2 - y1) / (x2 - x1) + y1;
+	}
+	else if (edge.v2.x > area.x2) {
+		edge.v2.x = area.x2;
+		edge.v2.y = (area.x2 - x1) * (y2 - y1) / (x2 - x1) + y1;
+	}
+	if (edge.v2.y < area.y1) {
+		edge.v2.x = (area.y1 - y1) * (x2 - x1) / (y2 - y1) + x1;
+		edge.v2.y = area.y1;
+	}
+	else if (edge.v2.y > area.y2) {
+		edge.v2.x = (area.y2 - y1) * (x2 - x1) / (y2 - y1) + x1;
+		edge.v2.y = area.y2;
+	}
+
+	return edge;
+}
+
+function generateTriangulation(vertices, area) {
 	var triangulation = [];
 
-	var super_triangle = createSuperTriangle(points);
+	var super_triangle = createSuperTriangle(area);
 	triangulation.push(super_triangle);
 
-	for (var i in points) {
-		var point = points[i];
+	for (var i in vertices) {
+		var vertex = vertices[i];
 
 		var bad_triangles = [];
 
 		for (var j in triangulation) {
 			var triangle = triangulation[j];
 
-			if (triangle.circumcircleContains(point)) {
+			if (triangle.circumcircleContains(vertex)) {
 				bad_triangles.push(triangle);
 			}
 		}
@@ -195,7 +252,7 @@ function generateTriangulation(points) {
 
 			var v1 = edge.v1;
 			var v2 = edge.v2;
-			var v3 = point;
+			var v3 = vertex;
 
 			var e1 = edge;
 			var e2 = new Edge(v2, v3);
@@ -209,15 +266,15 @@ function generateTriangulation(points) {
 	return triangulation;
 }
 
-function generateVoronoi(points) {
+function generateVoronoi(vertices, area) {
 	var voronoi = {
 		edges: [],
 		polygons: []
 	};
 
-	var super_triangle = createSuperTriangle(points);
+	var super_triangle = createSuperTriangle(area);
 
-	var triangulation = generateTriangulation(points);
+	var triangulation = generateTriangulation(vertices, area);
 
 	for (var i in triangulation) {
 		var triangle = triangulation[i];
@@ -237,7 +294,7 @@ function generateVoronoi(points) {
 						new Vertex(triangle.circum_x, triangle.circum_y),
 						new Vertex(t.circum_x, t.circum_y)
 					);
-					voronoi.edges.push(newEdge);
+					voronoi.edges.push(validateEdgeByArea(newEdge, area));
 
 					var v1Flag = false;
 					var v2Flag = false;
