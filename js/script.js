@@ -21,6 +21,23 @@ var fr = new FileReader();
 
 var vertices = [];
 var edges = [];
+var polygons = [];
+
+function geoToMapX(x) {
+  return (x - x1) * viewWidth / areaWidth;
+}
+
+function geoToMapY(y) {
+  return (y1 - y) * viewHeight / areaHeight;
+}
+
+function mapToGeoX(x) {
+  return (x * areaWidth / viewWidth) + x1;
+}
+
+function mapToGeoY(y) {
+  return y1 - (y * areaHeight / viewHeight);
+}
 
 function drawVertices(vertices) {
   ctx.fillStyle = "#F44336";
@@ -40,7 +57,7 @@ function drawEdges(edges) {
   ctx.strokeStyle = "#00b3fd";
   ctx.lineWidth = lineWidth;
   ctx.lineCap = 'round';
-  for(i in edges) {
+  for (i in edges) {
     ctx.beginPath();
     ctx.moveTo(
       geoToMapX(edges[i].v1.x),
@@ -51,6 +68,84 @@ function drawEdges(edges) {
       geoToMapY(edges[i].v2.y)
     );
     ctx.stroke();
+  }
+}
+
+function drawPolygons(polygons) {
+  for (var i in polygons) {
+    var polygon = polygons[i];
+
+    ctx.fillStyle = "#F44336";
+    ctx.strokeStyle = "#00b3fd";
+    ctx.lineWidth = lineWidth;
+    ctx.beginPath();
+    ctx.moveTo(
+      geoToMapX(polygon.edges[0].v1.x),
+      geoToMapY(polygon.edges[0].v1.y)
+    );
+    ctx.lineTo(
+      geoToMapX(polygon.edges[0].v2.x),
+      geoToMapY(polygon.edges[0].v2.y)
+    );
+
+    var used = [];
+    var visit = new Set();
+
+    for (var j = 0; j < polygon.edges.length; j++) {
+      var now = polygon.edges[j].v1;
+      if (visit.has(now.toString())) {
+        visit.delete(now.toString());
+      }
+      else {
+        visit.add(now.toString());
+      }
+      var now = polygon.edges[j].v2;
+      if (visit.has(now.toString())) {
+        visit.delete(now.toString());
+      }
+      else {
+        visit.add(now.toString());
+      }
+    }
+
+    if (visit.size) {
+      var arr = [];
+      for (var j of visit) {
+        var coor = j.split(",");
+        arr.push(new Vertex(coor[0], coor[1]));
+      }
+      polygon.edges.push(new Edge(arr[0], arr[1]));
+    }
+
+    used[0] = true;
+    var now = polygon.edges[0].v2;
+
+    for (var j = 1; j < polygon.edges.length; j++) {
+      for (var k = 1; k < polygon.edges.length; k++) {
+        if (used[k]) {
+          continue;
+        }
+        if (polygon.edges[k].v1.isEqual(now)) {
+          now = polygon.edges[k].v2;
+          ctx.lineTo(
+            geoToMapX(now.x),
+            geoToMapY(now.y)
+          );
+          used[k] = true;
+          break;
+        }
+        else if (polygon.edges[k].v2.isEqual(now)) {
+          now = polygon.edges[k].v1;
+          ctx.lineTo(
+            geoToMapX(now.x),
+            geoToMapY(now.y)
+          );
+          used[k] = true;
+          break;
+        }
+      }
+    }
+    ctx.fill();
   }
 }
 
@@ -85,7 +180,8 @@ function drawTransformed() {
   }
 
   if (edges.length > 0) {
-    drawVertices(vertices);
+    drawPolygons(polygons);
+    // drawVertices(vertices);
     drawEdges(edges);
   }
   ctx.restore();
@@ -113,7 +209,9 @@ fr.onload = function(e) {
     );
     vertices.push(vertex);
   }
-  edges = generateVoronoi(vertices);
+  var voronoi = generateVoronoi(vertices);
+  edges = voronoi.edges;
+  polygons = voronoi.polygons;
 
   drawTransformed();
 };
@@ -187,19 +285,3 @@ $("#zoom-out-btn").click(function() {
     }
   }
 });
-
-function geoToMapX(x) {
-  return (x - x1) * viewWidth / areaWidth;
-}
-
-function geoToMapY(y) {
-  return (y1 - y) * viewHeight / areaHeight;
-}
-
-function mapToGeoX(x) {
-  return (x * areaWidth / viewWidth) + x1;
-}
-
-function mapToGeoY(y) {
-  return y1 - (y * areaHeight / viewHeight);
-}

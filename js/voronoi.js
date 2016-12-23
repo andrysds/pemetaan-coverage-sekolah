@@ -1,9 +1,13 @@
-function Vertex (x, y) {
+function Vertex(x, y) {
 	this.x = x;
 	this.y = y;
 
 	this.isEqual = function(v) {
 		return (this.x == v.x && this.y == v.y);
+	}
+
+	this.toString = function() {
+		return this.x.toString() + "," + this.y.toString();
 	}
 }
 
@@ -76,6 +80,11 @@ function Triangle(vertices, edges) {
 		}
 		return false;
 	}
+}
+
+function Polygon(vertex) {
+	this.id = vertex;
+	this.edges = [];
 }
 
 function createSuperTriangle(points) {
@@ -201,7 +210,10 @@ function generateTriangulation(points) {
 }
 
 function generateVoronoi(points) {
-	var voronoiEdges = [];
+	var voronoi = {
+		edges: [],
+		polygons: []
+	};
 
 	var super_triangle = createSuperTriangle(points);
 
@@ -218,18 +230,44 @@ function generateVoronoi(points) {
 				var t = triangulation[k];
 
 				if (t.containsEdge(edge) && !(
-						super_triangle.containsVertex(edge.v1) ||
-						super_triangle.containsVertex(edge.v2) )) {
-
-					voronoiEdges.push(new Edge(
+					super_triangle.containsVertex(edge.v1) ||
+					super_triangle.containsVertex(edge.v2) ))
+				{
+					var newEdge = new Edge(
 						new Vertex(triangle.circum_x, triangle.circum_y),
 						new Vertex(t.circum_x, t.circum_y)
-						));
+					);
+					voronoi.edges.push(newEdge);
+
+					var v1Flag = false;
+					var v2Flag = false;
+					for (l in voronoi.polygons) {
+						var polygon = voronoi.polygons[l];
+
+						if (polygon.id.isEqual(edge.v1)) {
+							polygon.edges.push(newEdge);
+							v1Flag = true;
+						}
+						if (polygon.id.isEqual(edge.v2)) {
+							polygon.edges.push(newEdge);
+							v2Flag = true;
+						}
+					}
+					if (!v1Flag) {
+						var newPolygon = new Polygon(edge.v1);
+						newPolygon.edges.push(newEdge);
+						voronoi.polygons.push(newPolygon);
+					}
+					if (!v2Flag) {
+						var newPolygon = new Polygon(edge.v2);
+						newPolygon.edges.push(newEdge);
+						voronoi.polygons.push(newPolygon);
+					}
 					break;
 				}
 			}
 		}
 	}
 
-	return voronoiEdges;
+	return voronoi;
 }
