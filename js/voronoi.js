@@ -84,10 +84,83 @@ function Triangle(vertices, edges) {
 
 function Polygon(vertex) {
 	this.id = vertex;
+	this.coverage = 0;
+	this.vertices = [];
 	this.edges = [];
+
+	this.identifyVertices = function() {
+		this.vertices.push(
+			new Vertex(
+				this.edges[0].v1.x,
+				this.edges[0].v1.y
+			)
+		);
+		this.vertices.push(
+			new Vertex(
+				this.edges[0].v2.x,
+				this.edges[0].v2.y
+			)
+		);
+
+	  var used = [];
+	  var visit = new Set();
+
+	  for (var j = 0; j < this.edges.length; j++) {
+	    var now = this.edges[j].v1;
+	    if (visit.has(now.toString())) {
+	      visit.delete(now.toString());
+	    }
+	    else {
+	      visit.add(now.toString());
+	    }
+	    var now = this.edges[j].v2;
+	    if (visit.has(now.toString())) {
+	      visit.delete(now.toString());
+	    }
+	    else {
+	      visit.add(now.toString());
+	    }
+	  }
+
+	  if (visit.size) {
+	    var arr = [];
+	    for (var j of visit) {
+	      var coor = j.split(",");
+	      arr.push(new Vertex(+coor[0], +coor[1]));
+	    }
+	    this.edges.push(new Edge(arr[0], arr[1]));
+	  }
+
+	  used[0] = true;
+	  var now = this.edges[0].v2;
+
+	  for (var j = 1; j < this.edges.length; j++) {
+	    for (var k = 1; k < this.edges.length; k++) {
+	      if (used[k]) {
+	        continue;
+	      }
+	      if (this.edges[k].v1.isEqual(now)) {
+	        now = this.edges[k].v2;
+	        this.vertices.push(
+	        	new Vertex(now.x, now.y)
+	        );
+	        used[k] = true;
+	        break;
+	      }
+	      else if (this.edges[k].v2.isEqual(now)) {
+	        now = this.edges[k].v1;
+	        this.vertices.push(
+	        	new Vertex(now.x, now.y)
+	        );
+	        used[k] = true;
+	        break;
+	      }
+	    }
+	  }
+	}
 }
 
-function indetifyArea(vertices) {
+function identifyArea(vertices) {
 	var area = {
 		x1: null, y1: null,
 		x2: null, y2: null,

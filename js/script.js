@@ -72,78 +72,24 @@ function drawEdges(edges) {
 }
 
 function drawPolygons(polygons) {
-  for (var i in polygons) {
-    var polygon = polygons[i];
-
+  for (var polygon of polygons) {
     ctx.beginPath();
     ctx.moveTo(
-      geoToMapX(polygon.edges[0].v1.x),
-      geoToMapY(polygon.edges[0].v1.y)
+      geoToMapX(polygon.vertices[0].x),
+      geoToMapY(polygon.vertices[0].y)
     );
-    ctx.lineTo(
-      geoToMapX(polygon.edges[0].v2.x),
-      geoToMapY(polygon.edges[0].v2.y)
-    );
-
-    var used = [];
-    var visit = new Set();
-
-    for (var j = 0; j < polygon.edges.length; j++) {
-      var now = polygon.edges[j].v1;
-      if (visit.has(now.toString())) {
-        visit.delete(now.toString());
-      }
-      else {
-        visit.add(now.toString());
-      }
-      var now = polygon.edges[j].v2;
-      if (visit.has(now.toString())) {
-        visit.delete(now.toString());
-      }
-      else {
-        visit.add(now.toString());
-      }
-    }
-
-    if (visit.size) {
-      var arr = [];
-      for (var j of visit) {
-        var coor = j.split(",");
-        arr.push(new Vertex(coor[0], coor[1]));
-      }
-      polygon.edges.push(new Edge(arr[0], arr[1]));
-    }
-
-    used[0] = true;
-    var now = polygon.edges[0].v2;
-
-    for (var j = 1; j < polygon.edges.length; j++) {
-      for (var k = 1; k < polygon.edges.length; k++) {
-        if (used[k]) {
-          continue;
-        }
-        if (polygon.edges[k].v1.isEqual(now)) {
-          now = polygon.edges[k].v2;
-          ctx.lineTo(
-            geoToMapX(now.x),
-            geoToMapY(now.y)
-          );
-          used[k] = true;
-          break;
-        }
-        else if (polygon.edges[k].v2.isEqual(now)) {
-          now = polygon.edges[k].v1;
-          ctx.lineTo(
-            geoToMapX(now.x),
-            geoToMapY(now.y)
-          );
-          used[k] = true;
-          break;
-        }
-      }
+    for (var i = 1; i < polygon.vertices.length; i++) {
+      ctx.lineTo(
+        geoToMapX(polygon.vertices[i].x),
+        geoToMapY(polygon.vertices[i].y)
+      );
     }
     ctx.fillStyle = "#F44336";
     ctx.fill();
+
+    if (polygon.vertices.length < 3) {
+      console.log(polygon);
+    }
   }
 }
 
@@ -178,7 +124,7 @@ function drawTransformed() {
   }
 
   if (edges.length > 0) {
-    // drawPolygons(polygons);
+    drawPolygons(polygons);
     drawVertices(vertices);
     drawEdges(edges);
   }
@@ -207,10 +153,13 @@ fr.onload = function(e) {
     );
     vertices.push(vertex);
   }
-  var area = indetifyArea(vertices);
+  var area = identifyArea(vertices);
   var voronoi = generateVoronoi(vertices, area);
   edges = voronoi.edges;
   polygons = voronoi.polygons;
+  for (polygon of polygons) {
+    polygon.identifyVertices();
+  }
 
   drawTransformed();
 };
