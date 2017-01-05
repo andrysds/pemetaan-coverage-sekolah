@@ -2,7 +2,7 @@ var canvas;
 var ctx;
 var map = new Image();
 
-var scale = 0.11;
+var scale = 0.12;
 var lineWidth = 10;
 var centerX;
 var centerY;
@@ -55,7 +55,7 @@ function drawVertices(vertices) {
 }
 
 function drawEdges(edges) {
-  ctx.strokeStyle = "#00b3fd";
+  ctx.strokeStyle = "#212121";
   ctx.lineWidth = lineWidth;
   ctx.lineCap = 'round';
   for (i in edges) {
@@ -73,6 +73,20 @@ function drawEdges(edges) {
 }
 
 function drawPolygons(polygons) {
+  var coverageLevel = [];
+  coverageLevel[0] = Math.max.apply(Math, coverage);
+  for (var i = 1; i < 9; i++) {
+    coverageLevel[i] = coverageLevel[0] / 8 * (8 - i);
+  }
+  console.log(coverageLevel);
+
+  for (var i = 0; i < 8; i++) {
+    $("#coverage-"+i).html("&#62; " + (coverageLevel[i-1] * 100).toFixed(2) + 
+      " dan &#8804; " + (coverageLevel[i] * 100).toFixed(2));
+  }
+  $("#coverage-8").html("&#8804; " + (coverageLevel[7] * 100).toFixed(2));
+  $("#legenda").show();
+
   for (var i in polygons) {
     ctx.beginPath();
     ctx.moveTo(
@@ -86,11 +100,29 @@ function drawPolygons(polygons) {
       );
     }
     
-    if (coverage[i] < 0.02) {
-      ctx.fillStyle = "rgba(187, 222, 251, 0.5)";
+    if (coverage[i] > coverageLevel[0] / 8 * 7) {
+      ctx.fillStyle = "rgba(183, 28, 28, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8 * 6) {
+      ctx.fillStyle = "rgba(156, 39, 176, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8 * 5) {
+      ctx.fillStyle = "rgba(121, 85, 72, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8 * 4) {
+      ctx.fillStyle = "rgba(255, 152, 0, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8 * 3) {
+      ctx.fillStyle = "rgba(33, 150, 243, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8 * 2) {
+      ctx.fillStyle = "rgba(76, 175, 80, 0.5)";
+    }
+    else if (coverage[i] > coverageLevel[0] / 8) {
+      ctx.fillStyle = "rgba(255, 235, 59, 0.5)";
     }
     else {
-      ctx.fillStyle = "rgba(255, 205, 210, 0.5)";
+      ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
     }
     ctx.fill();
   }
@@ -126,9 +158,11 @@ function drawTransformed() {
     );
   }
 
-  drawPolygons(polygons);
-  drawVertices(vertices);
-  drawEdges(edges);
+  if (polygons.length) {
+    drawPolygons(polygons);
+    drawVertices(vertices);
+    drawEdges(edges);
+  }
 
   ctx.restore();
 }
