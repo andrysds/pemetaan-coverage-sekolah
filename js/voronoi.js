@@ -84,11 +84,10 @@ function Triangle(vertices, edges) {
 
 function Polygon(vertex) {
 	this.id = vertex;
-	this.coverage = 0;
 	this.vertices = [];
 	this.edges = [];
 
-	this.identifyVertices = function() {
+	this.identifyVertices = function(area) {
 		this.vertices.push(
 			new Vertex(
 				this.edges[0].v1.x,
@@ -128,7 +127,42 @@ function Polygon(vertex) {
 	      var coor = j.split(",");
 	      arr.push(new Vertex(+coor[0], +coor[1]));
 	    }
-	    this.edges.push(new Edge(arr[0], arr[1]));
+
+	    if (arr[0].x == area.x1 && arr[1].y == area.y1) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x1, area.y1)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x1, area.y1)));
+	    }
+	    else if (arr[0].x == area.x1 && arr[1].y == area.y2) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x1, area.y2)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x1, area.y2)));
+	    }
+	    else if (arr[0].x == area.x2 && arr[1].y == area.y1) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x2, area.y1)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x2, area.y1)));
+	    }
+	    else if (arr[0].x == area.x2 && arr[1].y == area.y2) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x2, area.y2)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x2, area.y2)));
+	    }
+	    else if (arr[1].x == area.x1 && arr[0].y == area.y1) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x1, area.y1)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x1, area.y1)));
+	    }
+	    else if (arr[1].x == area.x1 && arr[0].y == area.y2) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x1, area.y2)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x1, area.y2)));
+	    }
+	    else if (arr[1].x == area.x2 && arr[0].y == area.y1) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x2, area.y1)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x2, area.y1)));
+	    }
+	    else if (arr[1].x == area.x2 && arr[0].y == area.y2) {
+	    	this.edges.push(new Edge(arr[0], new Vertex(area.x2, area.y2)));
+	    	this.edges.push(new Edge(arr[1], new Vertex(area.x2, area.y2)));
+	    }
+	    else {
+	    	this.edges.push(new Edge(arr[0], arr[1]));
+	    }
 	  }
 
 	  used[0] = true;
@@ -160,49 +194,10 @@ function Polygon(vertex) {
 	}
 }
 
-function identifyArea(vertices) {
-	var area = {
-		x1: null, y1: null,
-		x2: null, y2: null,
-		width: null, height: null
-	};
-
-	area.x1 = vertices[0].x;
-	area.y1 = vertices[0].y;
-	area.x2 = vertices[0].x;
-	area.y2 = vertices[0].y;
-
-	for (i = 1; i < vertices.length; i++) {
-		var vertex = vertices[i];
-
-		if (vertex.x < area.x1) {
-			area.x1 = vertex.x;
-		}
-		else if (vertex.x > area.x2) {
-			area.x2 = vertex.x;
-		}
-		if (vertex.y < area.y1) {
-			area.y1 = vertex.y;
-		}
-		else if (vertex.y > area.y2) {
-			area.y2 = vertex.y;
-		}
-	}
-
-	area.x1 -= 0.1;
-	area.y1 -= 0.1;
-	area.x2 += 0.1;
-	area.y2 += 0.1;
-	area.width = area.x2 - area.x1;
-	area.height = area.y2 - area.y1;
-
-	return area;
-}
-
 function createSuperTriangle(area) {
-	var v1 = new Vertex(area.x1, area.y1);
-	var v2 = new Vertex(area.x2 + area.width, area.y1);
-	var v3 = new Vertex(area.x1, area.y2 + area.height);
+	var v1 = new Vertex(area.x1 - area.width, area.y1 - area.height);
+	var v2 = new Vertex(area.x2 + 2 * area.width, area.y1 - area.height);
+	var v3 = new Vertex(area.x1 - area.width, area.y2 + 2 * area.height);
 
 	var e1 = new Edge(v1, v2);
 	var e2 = new Edge(v1, v3);
@@ -248,11 +243,11 @@ function validateEdgeByArea(edge, area) {
 		edge.v1.x = area.x2;
 		edge.v1.y = (area.x2 - x1) * (y2 - y1) / (x2 - x1) + y1;
 	}
-	if (edge.v1.y < area.y1) {
+	if (edge.v1.y > area.y1) {
 		edge.v1.x = (area.y1 - y1) * (x2 - x1) / (y2 - y1) + x1;
 		edge.v1.y = area.y1;
 	}
-	else if (edge.v1.y > area.y2) {
+	else if (edge.v1.y < area.y2) {
 		edge.v1.x = (area.y2 - y1) * (x2 - x1) / (y2 - y1) + x1;
 		edge.v1.y = area.y2;
 	}
@@ -265,11 +260,11 @@ function validateEdgeByArea(edge, area) {
 		edge.v2.x = area.x2;
 		edge.v2.y = (area.x2 - x1) * (y2 - y1) / (x2 - x1) + y1;
 	}
-	if (edge.v2.y < area.y1) {
+	if (edge.v2.y > area.y1) {
 		edge.v2.x = (area.y1 - y1) * (x2 - x1) / (y2 - y1) + x1;
 		edge.v2.y = area.y1;
 	}
-	else if (edge.v2.y > area.y2) {
+	else if (edge.v2.y < area.y2) {
 		edge.v2.x = (area.y2 - y1) * (x2 - x1) / (y2 - y1) + x1;
 		edge.v2.y = area.y2;
 	}
@@ -367,7 +362,13 @@ function generateVoronoi(vertices, area) {
 						new Vertex(triangle.circum_x, triangle.circum_y),
 						new Vertex(t.circum_x, t.circum_y)
 					);
-					voronoi.edges.push(validateEdgeByArea(newEdge, area));
+					newEdge = validateEdgeByArea(newEdge, area);
+
+					if (newEdge.v1.isEqual(newEdge.v2)) {
+						break;
+					}
+
+					voronoi.edges.push(newEdge);
 
 					var v1Flag = false;
 					var v2Flag = false;

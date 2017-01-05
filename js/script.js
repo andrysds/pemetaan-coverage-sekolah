@@ -22,6 +22,7 @@ var fr = new FileReader();
 var vertices = [];
 var edges = [];
 var polygons = [];
+var coverage = [];
 
 function geoToMapX(x) {
   return (x - sxGeo) * viewWidth / areaWidth;
@@ -72,24 +73,26 @@ function drawEdges(edges) {
 }
 
 function drawPolygons(polygons) {
-  for (var polygon of polygons) {
+  for (var i in polygons) {
     ctx.beginPath();
     ctx.moveTo(
-      geoToMapX(polygon.vertices[0].x),
-      geoToMapY(polygon.vertices[0].y)
+      geoToMapX(polygons[i].vertices[0].x),
+      geoToMapY(polygons[i].vertices[0].y)
     );
-    for (var i = 1; i < polygon.vertices.length; i++) {
+    for (var j = 1; j < polygons[i].vertices.length; j++) {
       ctx.lineTo(
-        geoToMapX(polygon.vertices[i].x),
-        geoToMapY(polygon.vertices[i].y)
+        geoToMapX(polygons[i].vertices[j].x),
+        geoToMapY(polygons[i].vertices[j].y)
       );
     }
-    ctx.fillStyle = "#F44336";
-    ctx.fill();
-
-    if (polygon.vertices.length < 3) {
-      console.log(polygon);
+    
+    if (coverage[i] < 0.02) {
+      ctx.fillStyle = "rgba(187, 222, 251, 0.5)";
     }
+    else {
+      ctx.fillStyle = "rgba(255, 205, 210, 0.5)";
+    }
+    ctx.fill();
   }
 }
 
@@ -123,45 +126,51 @@ function drawTransformed() {
     );
   }
 
-  if (edges.length > 0) {
-    drawPolygons(polygons);
-    drawVertices(vertices);
-    drawEdges(edges);
-  }
+  drawPolygons(polygons);
+  drawVertices(vertices);
+  drawEdges(edges);
+
   ctx.restore();
 }
 
 map.onload = function() {
   viewWidth = map.width;
   viewHeight = map.height;
-
   drawTransformed();
-
-  $("#loader").hide();
+  $("#loader").hide(100);
   $("#wrapper").show();
 }
 
 fr.onload = function(e) {
-  vertices.length = 0;
-  edges.length = 0;
+  $("#loader").show(100, function(){
 
-  schools = JSON.parse(fr.result);
-  for (var i = 0; i < schools.length; i++) {
-    var vertex = new Vertex(
-      schools[i].longitude,
-      schools[i].latitude
-    );
-    vertices.push(vertex);
-  }
-  var area = identifyArea(vertices);
-  var voronoi = generateVoronoi(vertices, area);
-  edges = voronoi.edges;
-  polygons = voronoi.polygons;
-  for (polygon of polygons) {
-    polygon.identifyVertices();
-  }
+    vertices.length = 0;
+    edges.length = 0;
+
+    var data = JSON.parse(fr.result);
+    schools = data.schools;
+    for (var i = 0; i < schools.length; i++) {
+      var vertex = new Vertex(
+        schools[i].longitude,
+        schools[i].latitude
+      );
+      vertices.push(vertex);
+    }
+    var area = data.area;
+    area.height *= -1;
+    
+    var voronoi = generateVoronoi(vertices, area);
+    edges = voronoi.edges;
+    polygons = voronoi.polygons;
+    
+    for (polygon of polygons) {
+      polygon.identifyVertices(area);
+    }
+    coverage = doSampling(polygons, area);
 
   drawTransformed();
+    $("#loader").hide(100);
+  });
 };
 
 $(document).ready(function() {
