@@ -1,0 +1,262 @@
+{
+  "area": {
+    "x1": 107.95715332,
+    "y1": -6.43540077,
+    "x2": 108.02856445,
+    "y2": -6.48452534,
+    "width": 0.07141113,
+    "height": 0.04912457
+  },
+  "schools": [
+    {
+      "name": "Sekolah 1",
+      "latitude": -6.468812518636713,
+      "longitude": 108.00797989115135
+    },
+    {
+      "name": "Sekolah 2",
+      "latitude": -6.478741332325742,
+      "longitude": 107.99791809188154
+    },
+    {
+      "name": "Sekolah 3",
+      "latitude": -6.441157988555521,
+      "longitude": 107.97744295661684
+    },
+    {
+      "name": "Sekolah 4",
+      "latitude": -6.4419518132240166,
+      "longitude": 108.0154502396076
+    },
+    {
+      "name": "Sekolah 5",
+      "latitude": -6.448698289349435,
+      "longitude": 108.01302391060713
+    },
+    {
+      "name": "Sekolah 6",
+      "latitude": -6.451063030495398,
+      "longitude": 107.99433515729935
+    },
+    {
+      "name": "Sekolah 7",
+      "latitude": -6.452470502004681,
+      "longitude": 108.00873109128112
+    },
+    {
+      "name": "Sekolah 8",
+      "latitude": -6.43680126664793,
+      "longitude": 107.99160253819318
+    },
+    {
+      "name": "Sekolah 9",
+      "latitude": -6.436001902675906,
+      "longitude": 108.02785045480358
+    },
+    {
+      "name": "Sekolah 10",
+      "latitude": -6.453859044409152,
+      "longitude": 108.0040444110856
+    },
+    {
+      "name": "Sekolah 11",
+      "latitude": -6.457945379627964,
+      "longitude": 107.98127319963503
+    },
+    {
+      "name": "Sekolah 12",
+      "latitude": -6.459530523078113,
+      "longitude": 108.01946504179863
+    },
+    {
+      "name": "Sekolah 13",
+      "latitude": -6.440766501582382,
+      "longitude": 107.99996275962039
+    },
+    {
+      "name": "Sekolah 14",
+      "latitude": -6.455798976451878,
+      "longitude": 108.0086443650206
+    },
+    {
+      "name": "Sekolah 15",
+      "latitude": -6.459262828367643,
+      "longitude": 107.99248892394671
+    },
+    {
+      "name": "Sekolah 16",
+      "latitude": -6.4786696413954195,
+      "longitude": 108.0042092848117
+    },
+    {
+      "name": "Sekolah 17",
+      "latitude": -6.480973102484885,
+      "longitude": 108.01028670219941
+    },
+    {
+      "name": "Sekolah 18",
+      "latitude": -6.4583791104386785,
+      "longitude": 107.96507552516522
+    },
+    {
+      "name": "Sekolah 19",
+      "latitude": -6.467826509535235,
+      "longitude": 107.9784182497712
+    },
+    {
+      "name": "Sekolah 20",
+      "latitude": -6.440076355846054,
+      "longitude": 108.0227533058606
+    },
+    {
+      "name": "Sekolah 21",
+      "latitude": -6.439325319655782,
+      "longitude": 108.00095363403713
+    },
+    {
+      "name": "Sekolah 22",
+      "latitude": -6.448088713142196,
+      "longitude": 108.01529129100535
+    },
+    {
+      "name": "Sekolah 23",
+      "latitude": -6.466586831438106,
+      "longitude": 108.00757147922637
+    },
+    {
+      "name": "Sekolah 24",
+      "latitude": -6.484315800244698,
+      "longitude": 108.0171219378083
+    },
+    {
+      "name": "Sekolah 25",
+      "latitude": -6.442385302230204,
+      "longitude": 108.02330529929397
+    },
+    {
+      "name": "Sekolah 26",
+      "latitude": -6.461407559168219,
+      "longitude": 107.97473871820576
+    },
+    {
+      "name": "Sekolah 27",
+      "latitude": -6.444615527223993,
+      "longitude": 107.96260415631498
+    },
+    {
+      "name": "Sekolah 28",
+      "latitude": -6.442584635217532,
+      "longitude": 107.9712803500571
+    },
+    {
+      "name": "Sekolah 29",
+      "latitude": -6.459370052244989,
+      "longitude": 108.00174196166971
+    },
+    {
+      "name": "Sekolah 30",
+      "latitude": -6.4426901515026715,
+      "longitude": 108.01426659292736
+    },
+    {
+      "name": "Sekolah 31",
+      "latitude": -6.453178726624001,
+      "longitude": 107.96429844577742
+    },
+    {
+      "name": "Sekolah 32",
+      "latitude": -6.482865076149424,
+      "longitude": 107.96825260013718
+    },
+    {
+      "name": "Sekolah 33",
+      "latitude": -6.470657003658182,
+      "longitude": 107.9827738660291
+    },
+    {
+      "name": "Sekolah 34",
+      "latitude": -6.4388492324147215,
+      "longitude": 107.99781339900922
+    },
+    {
+      "name": "Sekolah 35",
+      "latitude": -6.471306332719483,
+      "longitude": 108.01256064229608
+    },
+    {
+      "name": "Sekolah 36",
+      "latitude": -6.4390419784619075,
+      "longitude": 107.97524258030403
+    },
+    {
+      "name": "Sekolah 37",
+      "latitude": -6.456982839908462,
+      "longitude": 107.98669122418967
+    },
+    {
+      "name": "Sekolah 38",
+      "latitude": -6.4432268474183685,
+      "longitude": 108.00272873559322
+    },
+    {
+      "name": "Sekolah 39",
+      "latitude": -6.451688866418609,
+      "longitude": 108.01707484429515
+    },
+    {
+      "name": "Sekolah 40",
+      "latitude": -6.437300719359415,
+      "longitude": 107.9627020501309
+    },
+    {
+      "name": "Sekolah 41",
+      "latitude": -6.446949441970019,
+      "longitude": 107.96581954896214
+    },
+    {
+      "name": "Sekolah 42",
+      "latitude": -6.457370486088739,
+      "longitude": 107.95848678908675
+    },
+    {
+      "name": "Sekolah 43",
+      "latitude": -6.456944180853592,
+      "longitude": 107.99287518937417
+    },
+    {
+      "name": "Sekolah 44",
+      "latitude": -6.482359977191866,
+      "longitude": 108.01833584077508
+    },
+    {
+      "name": "Sekolah 45",
+      "latitude": -6.4506599164772345,
+      "longitude": 107.98206973507101
+    },
+    {
+      "name": "Sekolah 46",
+      "latitude": -6.461123163669549,
+      "longitude": 107.95982454028017
+    },
+    {
+      "name": "Sekolah 47",
+      "latitude": -6.469289883366511,
+      "longitude": 107.9860911526599
+    },
+    {
+      "name": "Sekolah 48",
+      "latitude": -6.4421264018912385,
+      "longitude": 107.97607873247584
+    },
+    {
+      "name": "Sekolah 49",
+      "latitude": -6.461449383024695,
+      "longitude": 107.98040485760794
+    },
+    {
+      "name": "Sekolah 50",
+      "latitude": -6.450998550649355,
+      "longitude": 107.9926736681082
+    }
+  ]
+}
