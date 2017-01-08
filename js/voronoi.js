@@ -86,6 +86,7 @@ function Polygon(vertex) {
 	this.id = vertex;
 	this.vertices = [];
 	this.edges = [];
+	this.isBoundary = false;
 
 	this.identifyVertices = function(area) {
 		this.vertices.push(
@@ -335,10 +336,7 @@ function generateTriangulation(vertices, area) {
 }
 
 function generateVoronoi(vertices, area) {
-	var voronoi = {
-		edges: [],
-		polygons: []
-	};
+	var voronoi = [];
 
 	var super_triangle = createSuperTriangle(area);
 
@@ -368,12 +366,10 @@ function generateVoronoi(vertices, area) {
 						break;
 					}
 
-					voronoi.edges.push(newEdge);
-
 					var v1Flag = false;
 					var v2Flag = false;
-					for (l in voronoi.polygons) {
-						var polygon = voronoi.polygons[l];
+					for (l in voronoi) {
+						var polygon = voronoi[l];
 
 						if (polygon.id.isEqual(edge.v1)) {
 							polygon.edges.push(newEdge);
@@ -387,12 +383,12 @@ function generateVoronoi(vertices, area) {
 					if (!v1Flag) {
 						var newPolygon = new Polygon(edge.v1);
 						newPolygon.edges.push(newEdge);
-						voronoi.polygons.push(newPolygon);
+						voronoi.push(newPolygon);
 					}
 					if (!v2Flag) {
 						var newPolygon = new Polygon(edge.v2);
 						newPolygon.edges.push(newEdge);
-						voronoi.polygons.push(newPolygon);
+						voronoi.push(newPolygon);
 					}
 					break;
 				}

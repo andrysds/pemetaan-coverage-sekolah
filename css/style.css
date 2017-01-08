@@ -48,6 +48,7 @@ canvas {
 
 #legenda {
 	display: none;
+	width: 200px;
 	padding: 5px 10px 0 10px;
 	position: fixed;
 	bottom: 20px;

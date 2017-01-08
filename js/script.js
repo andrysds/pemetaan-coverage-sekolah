@@ -20,7 +20,6 @@ var schools;
 var fr = new FileReader();
 
 var vertices = [];
-var edges = [];
 var polygons = [];
 var coverage = [];
 
@@ -78,13 +77,12 @@ function drawPolygons(polygons) {
   for (var i = 1; i < 9; i++) {
     coverageLevel[i] = coverageLevel[0] / 8 * (8 - i);
   }
-  console.log(coverageLevel);
 
   for (var i = 0; i < 8; i++) {
-    $("#coverage-"+i).html("&#62; " + (coverageLevel[i-1] * 100).toFixed(2) + 
-      " dan &#8804; " + (coverageLevel[i] * 100).toFixed(2));
+    $("#coverage-"+i).html((coverageLevel[i] * 100).toFixed(2) + 
+      " &#8804; d &#8804; " + (coverageLevel[i-1] * 100).toFixed(2));
   }
-  $("#coverage-8").html("&#8804; " + (coverageLevel[7] * 100).toFixed(2));
+  $("#coverage-8").html("d &#8804; " + (coverageLevel[7] * 100).toFixed(2));
   $("#legenda").show();
 
   for (var i in polygons) {
@@ -125,6 +123,11 @@ function drawPolygons(polygons) {
       ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
     }
     ctx.fill();
+    
+    ctx.strokeStyle = "#212121";
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.stroke();
   }
 }
 
@@ -161,7 +164,6 @@ function drawTransformed() {
   if (polygons.length) {
     drawPolygons(polygons);
     drawVertices(vertices);
-    drawEdges(edges);
   }
 
   ctx.restore();
@@ -177,12 +179,12 @@ map.onload = function() {
 
 fr.onload = function(e) {
   $("#loader").show(100, function(){
-
     vertices.length = 0;
-    edges.length = 0;
+    polygons.length = 0;
 
     var data = JSON.parse(fr.result);
     schools = data.schools;
+
     for (var i = 0; i < schools.length; i++) {
       var vertex = new Vertex(
         schools[i].longitude,
@@ -192,10 +194,7 @@ fr.onload = function(e) {
     }
     var area = data.area;
     area.height *= -1;
-    
-    var voronoi = generateVoronoi(vertices, area);
-    edges = voronoi.edges;
-    polygons = voronoi.polygons;
+    polygons = generateVoronoi(vertices, area);
     
     for (polygon of polygons) {
       polygon.identifyVertices(area);
