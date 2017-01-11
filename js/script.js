@@ -1,6 +1,7 @@
 var canvas;
 var ctx;
 var map = new Image();
+var fr = new FileReader();
 
 var scale = 0.12;
 var lineWidth = 10;
@@ -15,9 +16,6 @@ var viewWidth;
 var viewHeight;
 var sx = 0;
 var sy = 0;
-
-var schools;
-var fr = new FileReader();
 
 var vertices = [];
 var polygons = [];
@@ -183,17 +181,25 @@ fr.onload = function(e) {
     polygons.length = 0;
 
     var data = JSON.parse(fr.result);
-    schools = data.schools;
-
-    for (var i = 0; i < schools.length; i++) {
-      var vertex = new Vertex(
-        schools[i].longitude,
-        schools[i].latitude
-      );
-      vertices.push(vertex);
-    }
     var area = data.area;
-    area.height *= -1;
+    area.width = area.x2 - area.x1;
+    area.height = area.y2 - area.y1;
+    
+    var schools = data.schools;
+    for (var i = 0; i < schools.length; i++) {
+      if (schools[i].longitude > area.x1 &&
+          schools[i].longitude < area.x2 &&
+          schools[i].latitude < area.y1 &&
+          schools[i].latitude > area.y2
+      ) {
+        var vertex = new Vertex(
+          schools[i].longitude,
+          schools[i].latitude
+        );
+        vertices.push(vertex);
+      }
+    }
+
     polygons = generateVoronoi(vertices, area);
     
     for (polygon of polygons) {
